@@ -3,11 +3,8 @@ package cmd
 import (
 	"os"
 
-	config "github.com/nickkhall/fullstack-todo/todo-rest/config"
 	"github.com/spf13/cobra"
 )
-
-var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -34,7 +31,7 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(func() {config.InitConfig(cfgFile)})
+	// cobra.OnInitialize(func() {config.SetEnvConfig(cfgFile)})
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,

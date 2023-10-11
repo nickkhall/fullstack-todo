@@ -3,8 +3,12 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/nickkhall/fullstack-todo/todo-rest/config"
+	postgresdb "github.com/nickkhall/fullstack-todo/todo-rest/db"
 	"github.com/spf13/cobra"
 )
+
+var cfgFile string
 
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
@@ -19,14 +23,10 @@ var serveCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(serveCmd)
 
-	// Here you will define your flags and configuration settings.
+	// setup .env config file
+	config.SetEnvConfig(cfgFile)
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serveCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	postgresdb.GetServerCredentials()
 }
+
 
