@@ -3,10 +3,12 @@ package postgresdb
 import (
 	"database/sql"
 	"fmt"
+	"hash"
+	"log"
 
 	_ "github.com/lib/pq"
 	"github.com/nickkhall/fullstack-todo/todo-rest/config"
-	todo "github.com/nickkhall/fullstack-todo/todo-rest/http"
+	// handlers "github.com/nickkhall/fullstack-todo/todo-rest/http"
 )
 
 func Connect() (db *sql.DB, err error) {
@@ -41,6 +43,18 @@ func Insert(t *todo.Todo) (err error) {
   fmt.Println("db: ", db)
 
   return
+}
+
+func ValidateUser(h *hash.Hash) {
+  // connect to postgres db
+  db, err := Connect()
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  defer Close(db)
+
+  
 }
  
 

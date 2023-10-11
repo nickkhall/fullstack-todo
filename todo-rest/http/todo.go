@@ -1,4 +1,4 @@
-package todo
+package handlers
 
 import (
 	"encoding/json"

@@ -3,8 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/nickkhall/fullstack-todo/todo-rest/config"
-	postgresdb "github.com/nickkhall/fullstack-todo/todo-rest/db"
+	"github.com/gin-gonic/gin"
+	config "github.com/nickkhall/fullstack-todo/todo-rest/config"
+	handlers "github.com/nickkhall/fullstack-todo/todo-rest/http"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +27,11 @@ func init() {
 	// setup .env config file
 	config.SetEnvConfig(cfgFile)
 
-	postgresdb.Connect()
+
+	r := gin.Default()
+	r.POST("/login", handlers.Login) 
+
+	r.Run("localhost:3000")
 }
 
 
