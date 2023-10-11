@@ -6,14 +6,14 @@ import (
 	"github.com/spf13/viper"
 )
 
-var EnvConfig *Config
+var EnvConfig *config
 
-type Config struct {
-  Host	    string `mapstructure:"HOST"`
-  Port 	    string `mapstructure:"PORT"`
-  User 	    string `mapstructure:"USER"`
-  Password  string `mapstructure:"PASSWORD"`
-  DBName    string `mapstructure:"DBNAME"`
+type config struct {
+  PSQLHost	string `mapstructure:"PSQL_HOST"`
+  PSQLPort 	int    `mapstructure:"PSLQ_PORT"`
+  PSQLUser 	string `mapstructure:"PSQL_USER"`
+  PSQLPassword	string `mapstructure:"PSQL_PASSWORD"`
+  PSQLDBName    string `mapstructure:"PSQL_DB_NAME"`
 }
 
 func SetEnvConfig(cfgFile string) {
@@ -21,7 +21,7 @@ func SetEnvConfig(cfgFile string) {
 }
 
 // Init reads in config file and ENV variables if set.
-func InitEnvConfig(cfgFile string) (config *Config) {
+func InitEnvConfig(cfgFile string) (c *config) {
   if cfgFile != "" {
     // Use config file from the flag.
     viper.SetConfigFile(cfgFile)
@@ -39,13 +39,13 @@ func InitEnvConfig(cfgFile string) (config *Config) {
   }
 
   // unmarshal config
-  if err := viper.Unmarshal(&config); err != nil {
+  if err := viper.Unmarshal(&c); err != nil {
     log.Fatal(err)
   }
 
   return
 }
 
-func GetConfig() *Config {
+func GetConfig() *config {
   return EnvConfig
 }

@@ -26,7 +26,7 @@ func init() {
 	// setup .env config file
 	config.SetEnvConfig(cfgFile)
 
-	postgresdb.GetServerCredentials()
+	postgresdb.Connect()
 }
 
 
