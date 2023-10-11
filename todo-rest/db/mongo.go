@@ -13,8 +13,12 @@ import (
 func Connect() {
   mongoConnectionStr := viper.GetString("app.mongo_conn_str")
   fmt.Println("using connection string: ", mongoConnectionStr)
+
   serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+
+  // Set options
   opts := options.Client().ApplyURI("").SetServerAPIOptions(serverAPI)
+
   // Create a new client and connect to the server
   client, err := mongo.Connect(context.TODO(), opts)
   if err != nil {

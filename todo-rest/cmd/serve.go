@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 
-	mongoDb "github.com/nickkhall/fullstack-todo/todo-rest/db"
 	"github.com/spf13/cobra"
 )
 
@@ -29,6 +28,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	mongoDb.Connect()
 }
 
