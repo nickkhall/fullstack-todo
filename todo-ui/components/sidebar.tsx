@@ -6,7 +6,7 @@ import SidebarHeader from './sidebarHeader';
 import SidebarMenu from './sidebarMenu';
 
 // Styles
-import styles from 'styles/sidebar'
+import styles from 'styles/sidebar';
 
 type SidebarProps = {}
 

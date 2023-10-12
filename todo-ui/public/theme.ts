@@ -9,6 +9,7 @@ export const theme = createTheme({
     accent: {
       primary: '#5F85DB',
       secondary: '#90B8F8',
+      third: '#7895CB'
     },
     text: {
       primary: '#000',

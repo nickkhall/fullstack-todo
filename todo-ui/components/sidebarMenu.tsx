@@ -6,10 +6,10 @@ import MenuList, { MenuListProps } from '@mui/material/MenuList';
 import SidebarMenuItem from 'components/sidebarMenuItem';
 
 // Styles
-import styles from 'styles/sidebarMenu'
+import styles from 'styles/sidebarMenu';
 
 // Constants
-import sidebarMenuItems from 'constants/sidebarMenuItems'
+import sidebarMenuItems from 'constants/sidebarMenuItems';
 
 type SidebarMenuProps = {}
 
@@ -19,8 +19,8 @@ export default function SidebarMenu<SidebarMenuProps> () {
   return (
     <Paper>
       <StyledSidebarMenu>
-        {sidebarMenuItems.map(({ name }) => (
-          <SidebarMenuItem {name} />
+        {sidebarMenuItems.map(({ name, icon }) => (
+          <SidebarMenuItem key={name} name={name} icon={icon} />
         ))}
       </StyledSidebarMenu>
     </Paper>

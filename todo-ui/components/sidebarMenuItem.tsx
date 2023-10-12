@@ -1,9 +1,7 @@
 // Components
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Typography from '@mui/material/Typography';
-import ContentCut from '@mui/icons-material/ContentCut';
 
 // Styles
 import { styled } from '@mui/material/styles';
@@ -11,22 +9,18 @@ import styles from 'styles/sidebarMenuItems';
 
 type SidebarMenuItemProps = {
   name: string
+  icon: React.ElementType
 }
 
-const StyledSidebarMenuItem = styled(MenuItem)(styles)
+const StyledSidebarMenuItem = styled(MenuItem)<MenuItemProps>(styles)
 
-function SidebarMenuItem({ name }: SidebarMenuItemProps) {
+export default function SidebarMenuItem({ name, icon: Icon }: SidebarMenuItemProps) {
   return (
-    <MenuItem>
+    <StyledSidebarMenuItem>
       <ListItemIcon>
-        <ContentCut fontSize="small" />
+        <Icon />
       </ListItemIcon>
-      <ListItemText>Cut</ListItemText>
-      <Typography variant="body2" color="text.secondary">
-        {name}
-      </Typography>
-    </MenuItem>
+      <ListItemText>{name}</ListItemText>
+    </StyledSidebarMenuItem>
   )
 }
-
-export default SidebarMenuItem;

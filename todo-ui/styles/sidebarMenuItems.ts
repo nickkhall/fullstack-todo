@@ -1,5 +1,8 @@
 export default ({ theme }) => ({
-  height: '100%',
-  padding: '0px 10px',
-  width: '100%'
+  background: theme.palette.accent.third,
+  color: theme.palette.text.secondary,
+  margin: 0,
+  '&:hover': {
+    background: theme.palette.accent.secondary
+  }
 })
