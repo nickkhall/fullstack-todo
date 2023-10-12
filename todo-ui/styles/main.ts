@@ -1,6 +1,7 @@
-export default ({ theme }) => ({
-  background: theme.palette.background.secondary,
+export default ({ theme }: any) => ({
+  background: theme.palette.dark.primary,
   borderRadius: '3px',
+  boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
   color: theme.palette.text.primary,
   display: 'flex',
   justifyContent: 'space-between',

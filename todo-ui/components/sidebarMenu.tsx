@@ -17,7 +17,7 @@ const StyledSidebarMenu = styled(MenuList)<MenuListProps>(styles);
 
 export default function SidebarMenu<SidebarMenuProps> () {
   return (
-    <Paper>
+    <Paper sx={{ boxShadow: 'none' }}>
       <StyledSidebarMenu>
         {sidebarMenuItems.map(({ name, icon }) => (
           <SidebarMenuItem key={name} name={name} icon={icon} />

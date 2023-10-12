@@ -1,5 +1,6 @@
-export default ({ theme }) => ({
+export default ({ theme }: any) => ({
+  background: theme.palette.dark.secondary,
+  borderRadius: '3px',
   height: '100%',
-  padding: '0px 10px',
   width: '30%'
 })

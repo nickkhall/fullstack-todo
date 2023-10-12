@@ -1,5 +1,5 @@
-export default ({ theme }) => ({
-  height: '100%',
-  padding: '0px 10px',
+export default ({ theme }: any) => ({
+  background: theme.palette.dark.tertiary,
+  padding: 0,
   width: '100%'
 })
