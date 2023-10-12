@@ -1,14 +1,20 @@
 import type { FunctionComponent } from 'react';
 import type { AppProps } from 'next/app';
+import { ThemeProvider } from '@mui/material/styles';
+
+// Styles
+import { theme } from 'public/theme'
 
 // Components
 import Layout from '@/components/layout';
 
 const App: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
   )
 };
 
