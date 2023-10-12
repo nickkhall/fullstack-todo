@@ -18,7 +18,7 @@ export default function SidebarMenuItem({ name, icon: Icon }: SidebarMenuItemPro
   return (
     <StyledSidebarMenuItem>
       <ListItemIcon>
-        <Icon />
+        <Icon sx={{ color: 'white' }} />
       </ListItemIcon>
       <ListItemText>{name}</ListItemText>
     </StyledSidebarMenuItem>
