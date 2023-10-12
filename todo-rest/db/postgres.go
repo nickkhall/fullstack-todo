@@ -3,7 +3,6 @@ package postgresdb
 import (
 	"database/sql"
 	"fmt"
-	"hash"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -21,31 +20,14 @@ func Connect() (db *sql.DB, err error) {
     return
   }
 
-  err = db.Ping()
-  if err != nil {
-    return
-  }
-
-  fmt.Printf("Successfull connected to postgres table %s ", c.PSQLDBName)
-  return
+  return db, dbErr 
 }
 
 func Close(db *sql.DB) {
   db.Close()
 }
 
-func Insert(t *todo.Todo) (err error) {
-  db, err := Connect()
-
-  defer Close(db)
-
-  fmt.Println("todo: ", t)
-  fmt.Println("db: ", db)
-
-  return
-}
-
-func ValidateUser(h *hash.Hash) {
+func ValidateUser(email *string, h *string) (bool, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -54,7 +36,22 @@ func ValidateUser(h *hash.Hash) {
 
   defer Close(db)
 
-  
+  var e string
+  row := db.QueryRow("SELECT email FROM public.user WHERE password = $1", *h)
+  err = row.Scan(&e);
+
+  if err != nil {
+    log.Fatal(err)
+    return false, err
+  }
+
+  // if user exists, return true 
+  if string(e) == *email {
+    return true, nil
+  }
+
+  // if user does not exist, return false
+  return false, nil
 }
  
 
