@@ -1,17 +1,18 @@
 import type { FunctionComponent, ReactNode } from 'react';
 
 // Components
-import Sidebar from 'components/sidebar'
+import Main from 'components/main';
+import Sidebar from 'components/sidebar';
 
 type LayoutProps = {
   children: ReactNode
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => (
-  <main>
+  <Main>
     <Sidebar />
     {children}
-  </main>
+  </Main>
 );
 
 export default Layout;

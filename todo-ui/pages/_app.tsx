@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 
 // Styles
 import { theme } from 'public/theme'
+import '../app/globals.css'
 
 // Components
 import Layout from '@/components/layout';
