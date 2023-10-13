@@ -3,7 +3,8 @@ import Button, { ButtonProps } from '@mui/material/Button';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Form';
+import inputStyles from '@/styles/Form/input';
+import styles from '@/styles/Form/textField';
 
 type Input = {
   name: string
@@ -25,7 +26,7 @@ export default function Form({ inputs, buttonText }: FormProps) {
       <form>
         {inputs.map((i: Input) => (
           <div key={i.name}>
-            <StyledTextField key={i.name} {...i} />
+            <StyledTextField key={i.name} {...i} InputProps={{ className: inputStyles }} />
           </div>
         ))}
         <StyledButton type="submit">{buttonText}</StyledButton>

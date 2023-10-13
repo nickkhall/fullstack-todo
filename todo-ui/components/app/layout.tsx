@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Main from '@/components/app';
 import Sidebar from '@/components/sidebar';
 import MainContent from '@/components/content'
+import ContentSectionCentered from '@/components/content/centered';
 
 type LayoutProps = {
   children: ReactNode
@@ -12,6 +13,14 @@ type LayoutProps = {
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const router = useRouter();
+  if (router.pathname === "/login") {
+    return (
+      <ContentSectionCentered>
+        {children}
+      </ContentSectionCentered>
+    )
+  }
+
   return (
     <Main>
       <Sidebar {...router} />

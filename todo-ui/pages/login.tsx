@@ -5,9 +5,14 @@ import { useContext, useState } from 'react';
 import AuthContext from '@/context/auth';
 
 // Components
-import ContentSection from '@/components/content';
+import ContentSectionCentered from '@/components/content/centered';
 import Form from '@/components/form';
 
+// Styles
+import { styled } from '@mui/material/styles';
+import loginContainerStyles from '@/styles/Login/container';
+
+// Services
 import { login } from 'api/auth';
 
 type LoginProps = {
@@ -15,6 +20,8 @@ type LoginProps = {
 }
 
 export default function Login<FunctionComponent> ({ ...props }: LoginProps) {
+  const StyledLoginContainer = styled('div')(loginContainerStyles);
+
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
 
@@ -24,8 +31,10 @@ export default function Login<FunctionComponent> ({ ...props }: LoginProps) {
   ];
 
   return (
-    <ContentSection>
-      <Form inputs={inputs} buttonText="Login" />
-    </ContentSection>
+    <ContentSectionCentered>
+      <StyledLoginContainer>
+        <Form inputs={inputs} buttonText="Login" />
+      </StyledLoginContainer>
+    </ContentSectionCentered>
   )
 };
