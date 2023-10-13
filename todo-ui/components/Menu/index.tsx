@@ -3,10 +3,10 @@ import { styled } from '@mui/material/styles';
 // Components
 import Paper from '@mui/material/Paper';
 import MenuList, { MenuListProps } from '@mui/material/MenuList';
-import SidebarMenuItem from 'components/sidebarMenuItem';
+import SidebarMenuItem from 'components/Menu/item';
 
 // Styles
-import styles from 'styles/sidebarMenu';
+import styles from 'styles/Menu';
 
 type SidebarMenuProps = {
   items: object[]

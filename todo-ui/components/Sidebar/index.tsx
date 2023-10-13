@@ -2,12 +2,12 @@ import { styled } from '@mui/material/styles';
 
 // Components
 import AppBar, { AppBarProps } from '@mui/material/AppBar'; 
-import SidebarHeader from './sidebarHeader';
-import SidebarMenu from './sidebarMenu';
+import SidebarHeader from 'components/Sidebar/header';
+import SidebarMenu from 'components/Menu';
 
 // Styles
-import styles from 'styles/sidebar';
-import sidebarAppbarStyles from 'styles/sidebarAppbar';
+import styles from 'styles/Sidebar';
+import sidebarAppbarStyles from 'styles/Sidebar/appbar';
 
 // Constants
 import sidebarMenuItems from 'constants/sidebarMenuItems';

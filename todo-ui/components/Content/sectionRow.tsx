@@ -3,7 +3,7 @@ import Paper, { PaperProps } from '@mui/material/Paper'
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from 'styles/contentSection';
+import styles from 'styles/Content/section';
 
 type ContentSectionProps = {
   children: ReactNode

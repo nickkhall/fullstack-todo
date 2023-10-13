@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react'
 
 // Components
-import ContentSectionRow from 'components/contentSectionRow';
+import ContentSectionRow from 'components/Content/sectionRow';
 import TodoColumn from 'components/Todo/column';
 
 type HomeProps = {
