@@ -33,6 +33,8 @@ func Login(c *gin.Context) {
   vu, err := postgresdb.ValidateUser(&user.Email, &ph)
 
   if err != nil && vu == true {
+    c.Request.Header.Add("Access-Control-Allow-Origin", "*")
+    c.Request.Header.Add("Content-Type", "application/json")
     c.JSON(http.StatusUnauthorized, gin.H{"success": false})
     return
   }
