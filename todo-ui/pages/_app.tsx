@@ -7,7 +7,7 @@ import { theme } from 'public/theme'
 import '../app/globals.css'
 
 // Components
-import Layout from '@/components/App/layout';
+import Layout from '@/components/app/layout';
 
 const App: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
   return (

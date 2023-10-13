@@ -1,14 +1,14 @@
 import type { FunctionComponent } from 'react'
 
 // Components
-import ContentSectionRow from 'components/Content/sectionRow';
-import TodoColumn from 'components/Todo/column';
+import ContentSectionRow from '@/components/content/sectionRow';
+import TodoColumn from '@/components/todo/column';
 
 type HomeProps = {
 
 }
 
-const Home: FunctionComponent = ({ ...props }: HomeProps) => {
+export default function Home<FunctionComponent> ({ ...props }: HomeProps) {
   return (
     <ContentSectionRow>
       <TodoColumn columnName={'Today'} />
@@ -17,5 +17,3 @@ const Home: FunctionComponent = ({ ...props }: HomeProps) => {
     </ContentSectionRow>
   )
 };
-
-export default Home;

@@ -5,7 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from 'styles/Menu/items';
+import styles from '@/styles/Menu/items';
 
 type SidebarMenuItemProps = {
   name: string
@@ -23,7 +23,6 @@ export default function SidebarMenuItem({
 }: SidebarMenuItemProps) {
   const isActivePath = link && pathname === link;
   const StyledSidebarMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => { return styles({theme, isActivePath})})
-
 
   return (
     <StyledSidebarMenuItem>
