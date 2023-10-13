@@ -30,11 +30,13 @@ func Login(c *gin.Context) {
   ph := fmt.Sprintf("%x", h.Sum(nil))
 
   // validate user with hashed password
-  vu, err := postgresdb.ValidateUser(&user.Email, &ph)
+  vu := postgresdb.ValidateUser(&user.Email, &ph)
 
-  if err != nil && vu == true {
-    c.Request.Header.Add("Access-Control-Allow-Origin", "*")
-    c.Request.Header.Add("Content-Type", "application/json")
+  fmt.Printf("vu: %v\n", vu)
+  c.Request.Header.Add("Access-Control-Allow-Origin", "*")
+  c.Request.Header.Add("Content-Type", "application/json")
+
+  if vu == false {
     c.JSON(http.StatusUnauthorized, gin.H{"success": false})
     return
   }

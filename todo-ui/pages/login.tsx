@@ -14,7 +14,7 @@ type LoginProps = {
 }
 
 export default function Login<FunctionComponent> ({ ...props }: LoginProps) {
-  const isAuthed = login('pissyboy@gmail.com', 'pissyboy')
+  const isAuthed = login('x', 'x')
   console.log({ isAuthed })
   return (
     <ContentSection>

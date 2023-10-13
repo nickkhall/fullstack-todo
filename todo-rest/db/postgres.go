@@ -27,7 +27,7 @@ func Close(db *sql.DB) {
   db.Close()
 }
 
-func ValidateUser(email *string, h *string) (bool, error) {
+func ValidateUser(email *string, h *string) (bool) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -40,18 +40,23 @@ func ValidateUser(email *string, h *string) (bool, error) {
   row := db.QueryRow("SELECT email FROM public.user WHERE password = $1", *h)
   err = row.Scan(&e);
 
+  // user does not exist
+  if err == sql.ErrNoRows {
+    return false
+  }
+
+  // error out if actual error
   if err != nil {
     log.Fatal(err)
-    return false, err
   }
 
-  // if user exists, return true 
+  // the user exists, return true 
   if string(e) == *email {
-    return true, nil
+    return true
   }
 
-  // if user does not exist, return false
-  return false, nil
+  // default return
+  return false
 }
  
 
