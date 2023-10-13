@@ -9,12 +9,22 @@ import styles from 'styles/sidebarMenuItems';
 
 type SidebarMenuItemProps = {
   name: string
+  link: string
   icon: React.ElementType
+  pathname: string
 }
 
-const StyledSidebarMenuItem = styled(MenuItem)<MenuItemProps>(styles)
 
-export default function SidebarMenuItem({ name, icon: Icon }: SidebarMenuItemProps) {
+export default function SidebarMenuItem({
+  name,
+  link,
+  icon: Icon,
+  pathname
+}: SidebarMenuItemProps) {
+  const isActivePath = link && pathname === link;
+  const StyledSidebarMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => { return styles({theme, isActivePath})})
+
+
   return (
     <StyledSidebarMenuItem>
       <ListItemIcon>

@@ -4,8 +4,8 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 export default [{
-  name: 'Today',
-  link: '/today',
+  name: 'Todos',
+  link: '/',
   icon: FormatListNumberedIcon
 }, {
   name: 'Calendar',

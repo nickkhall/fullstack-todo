@@ -7,19 +7,26 @@ import SidebarMenu from './sidebarMenu';
 
 // Styles
 import styles from 'styles/sidebar';
-import appbarStyles from 'styles/sidebarAppbar';
+import sidebarAppbarStyles from 'styles/sidebarAppbar';
+
+// Constants
+import sidebarMenuItems from 'constants/sidebarMenuItems';
+import userMenuItems from 'constants/userMenuItems';
 
 type SidebarProps = {}
 
 const StyledSidebar = styled('div')(styles)
-const StyledAppbar = styled(AppBar)<AppbarProps>(appbarStyles)
+const StyledAppbar = styled(AppBar)<AppBarProps>(sidebarAppbarStyles)
 
-export default function Sidebar<SidebarProps> () {
+export default function Sidebar ({ ...props }: SidebarProps) {
   return (
     <StyledSidebar>
       <StyledAppbar position="static" enableColorOnDark>
-        <SidebarHeader />
-        <SidebarMenu />
+        <div>
+          <SidebarHeader />
+          <SidebarMenu {...props} items={sidebarMenuItems} />
+        </div>
+        <SidebarMenu {...props} items={userMenuItems} />
       </StyledAppbar>
     </StyledSidebar>
   )

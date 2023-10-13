@@ -1,5 +1,4 @@
 export default ({ theme }: any) => ({
-  background: theme.palette.accent.linear,
-  borderRadius: '4px',
+  background: theme.palette.dark.linearDiagonal,
   color: theme.palette.text.secondary
 })

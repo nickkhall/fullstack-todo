@@ -1,7 +1,7 @@
 export default ({ theme }: any) => ({
-  background: theme.palette.dark.secondary,
+  background: 'transparent',
   borderRadius: '4px',
-  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 5px 15px',
+  boxShadow: 'inset 0px 0px 10px rgba(0,0,0,0.2)',
   marginLeft: '15px',
   flex: 2
 })

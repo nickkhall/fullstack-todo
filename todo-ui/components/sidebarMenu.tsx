@@ -8,19 +8,22 @@ import SidebarMenuItem from 'components/sidebarMenuItem';
 // Styles
 import styles from 'styles/sidebarMenu';
 
-// Constants
-import sidebarMenuItems from 'constants/sidebarMenuItems';
-
-type SidebarMenuProps = {}
+type SidebarMenuProps = {
+  items: object[]
+}
 
 const StyledSidebarMenu = styled(MenuList)<MenuListProps>(styles);
 
-export default function SidebarMenu<SidebarMenuProps> () {
+export default function SidebarMenu ({ items, ...props }: SidebarMenuProps) {
   return (
     <Paper sx={{ boxShadow: 'none' }}>
       <StyledSidebarMenu>
-        {sidebarMenuItems.map(({ name, icon }) => (
-          <SidebarMenuItem key={name} name={name} icon={icon} />
+        {items.map((itemProps: any) => (
+          <SidebarMenuItem
+            key={itemProps.name}
+            {...itemProps}
+            {...props}
+          />
         ))}
       </StyledSidebarMenu>
     </Paper>

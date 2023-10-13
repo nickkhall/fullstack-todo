@@ -7,9 +7,9 @@ type MainProps = {
 
 const MainComponent = styled('main')(styles)
 
-function Main ({ children }: MainProps) {
+function Main ({ children, ...props }: MainProps) {
   return (
-    <MainComponent>
+    <MainComponent {...props}>
       {children}
     </MainComponent>
   )
