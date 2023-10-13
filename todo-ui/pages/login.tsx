@@ -1,11 +1,12 @@
 import type { FunctionComponent } from 'react'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 // Context
 import AuthContext from '@/context/auth';
 
 // Components
 import ContentSection from '@/components/content';
+import Form from '@/components/form';
 
 import { login } from 'api/auth';
 
@@ -14,11 +15,17 @@ type LoginProps = {
 }
 
 export default function Login<FunctionComponent> ({ ...props }: LoginProps) {
-  const isAuthed = login('x', 'x')
-  console.log({ isAuthed })
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+
+  const inputs = [
+    { name: 'email', label: 'Email' },
+    { name: 'password', label: 'Password', type: 'password' }
+  ];
+
   return (
     <ContentSection>
-      <p>login plz</p>
+      <Form inputs={inputs} buttonText="Login" />
     </ContentSection>
   )
 };
