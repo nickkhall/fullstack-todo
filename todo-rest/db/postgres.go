@@ -7,7 +7,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/nickkhall/fullstack-todo/todo-rest/config"
-	// handlers "github.com/nickkhall/fullstack-todo/todo-rest/http"
+	types "github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
 func Connect() (db *sql.DB, err error) {
@@ -27,7 +27,7 @@ func Close(db *sql.DB) {
   db.Close()
 }
 
-func ValidateUser(email *string, h *string) (bool) {
+func Login(e *string, h *string) (*types.User, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -36,27 +36,23 @@ func ValidateUser(email *string, h *string) (bool) {
 
   defer Close(db)
 
-  var e string
-  row := db.QueryRow("SELECT email FROM public.user WHERE password = $1", *h)
-  err = row.Scan(&e);
+  var u types.User
+  row := db.QueryRow("SELECT username, email, last_login FROM public.user WHERE email = $1 AND password = $2", *e, *h)
+  err = row.Scan(&u.Username, &u.Email, &u.LastLogin);
 
   // user does not exist
-  if err == sql.ErrNoRows {
-    return false
+  if err == sql.ErrNoRows || err != nil {
+    return nil, err
   }
 
-  // error out if actual error
-  if err != nil {
-    log.Fatal(err)
-  }
+  fmt.Println("user", u)
 
   // the user exists, return true 
-  if string(e) == *email {
-    return true
+  if string(u.Email) == *e {
+    return &u, nil
   }
 
-  // default return
-  return false
+  return nil, nil
 }
  
 

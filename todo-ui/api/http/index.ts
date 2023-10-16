@@ -16,16 +16,13 @@ export const makeRequest = ({
   const { restUrl, restPort } = config;
   const env = `${restUrl}:${restPort}`;
   const url = `${env}${path.split('')[0] !== '/' ? '/' : ''}${path}`;
-  const result = Promise.resolve(fetch(url, {
+
+  return fetch(url, {
     body: JSON.stringify(payload),
     method
-  }))
-    .then(res => {
-      console.log({ res })
-      return res
-    }) 
-    .catch(err => console.error(err)); 
-
-  console.log({ result })
+  })
+    .then(res => res.json()) 
+    .then(data => ({ data }))
+    .catch(err => Promise.reject(err))
 }
 

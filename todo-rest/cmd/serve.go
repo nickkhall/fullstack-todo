@@ -32,16 +32,18 @@ func init() {
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-    AllowOrigins:     []string{"http://localhost:3000"},
-    AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
-    AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
-    ExposeHeaders:    []string{"Content-Length"},
-    AllowCredentials: true,
-    MaxAge:           12 * time.Hour,
-}))
+	  AllowOrigins:     []string{"http://localhost:3000"},
+    	  AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+    	  AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
+    	  ExposeHeaders:    []string{"Content-Length"},
+    	  AllowCredentials: true,
+    	  MaxAge:           12 * time.Hour,
+	}))
 
+	// handlers
 	r.POST("/login", handlers.Login) 
 
+	// run http server
 	r.Run("localhost:5000")
 }
 

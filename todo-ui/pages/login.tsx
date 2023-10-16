@@ -19,21 +19,34 @@ type LoginProps = {
 
 }
 
+type LoginDataProps = {
+  email: string
+  password: string
+}
+
 export default function Login<FunctionComponent> ({ ...props }: LoginProps) {
   const StyledLoginContainer = styled('div')(loginContainerStyles);
 
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-
   const inputs = [
-    { name: 'email', label: 'Email' },
+    { name: 'email', label: 'Email' }, 
     { name: 'password', label: 'Password', type: 'password' }
   ];
+
+  function handleLogin({ email, password }: LoginDataProps) {
+    if (email?.length && password?.length) {
+      const isAuthed = login(email, password);
+      console.log({ isAuthed })
+    }
+  }
 
   return (
     <ContentSectionCentered>
       <StyledLoginContainer>
-        <Form inputs={inputs} buttonText="Login" />
+        <Form
+          inputs={inputs}
+          buttonText="Login"
+          onSubmit={handleLogin}
+        />
       </StyledLoginContainer>
     </ContentSectionCentered>
   )

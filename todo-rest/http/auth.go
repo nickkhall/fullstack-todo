@@ -30,18 +30,14 @@ func Login(c *gin.Context) {
   ph := fmt.Sprintf("%x", h.Sum(nil))
 
   // validate user with hashed password
-  vu := postgresdb.ValidateUser(&user.Email, &ph)
+  u, err := postgresdb.Login(&user.Email, &ph)
 
-  fmt.Printf("vu: %v\n", vu)
-  c.Request.Header.Add("Access-Control-Allow-Origin", "*")
-  c.Request.Header.Add("Content-Type", "application/json")
-
-  if vu == false {
+  if err != nil {
     c.JSON(http.StatusUnauthorized, gin.H{"success": false})
     return
   }
 
-  c.JSON(http.StatusOK, gin.H{"success": true})
+  c.JSON(http.StatusOK, gin.H{"success": true, "data": u})
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
