@@ -42,7 +42,6 @@ func init() {
 
 	// handlers
 	r.POST("/login", handlers.Login) 
-	r.POST("/logout", handlers.Logout)
 
 	// run http server
 	r.Run("localhost:5000")

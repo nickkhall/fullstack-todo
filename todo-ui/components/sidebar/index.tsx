@@ -10,8 +10,8 @@ import styles from '@/styles/Sidebar';
 import sidebarAppbarStyles from '@/styles/Sidebar/appbar';
 
 // Constants
-import sidebarMenuItems from '@/constants/sidebarMenuItems';
-import userMenuItems from '@/constants/userMenuItems';
+import sidebarMenuItems from '@/constants/Sidebar/menuItems';
+import userMenuItems from '@/constants/User/menuItems';
 
 type SidebarProps = {}
 
@@ -24,9 +24,15 @@ export default function Sidebar ({ ...props }: SidebarProps) {
       <StyledAppbar position="static" enableColorOnDark>
         <div>
           <SidebarHeader />
-          <SidebarMenu {...props} items={sidebarMenuItems} />
+          <SidebarMenu
+            items={sidebarMenuItems}
+            {...props}
+          />
         </div>
-        <SidebarMenu {...props} items={userMenuItems} />
+        <SidebarMenu
+          items={userMenuItems}
+          {...props}
+        />
       </StyledAppbar>
     </StyledSidebar>
   )

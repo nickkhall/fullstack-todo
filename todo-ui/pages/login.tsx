@@ -17,6 +17,7 @@ import { login } from 'api/auth';
 
 // Utils
 import { decodeJWT } from '@/utils/jwt';
+import { setUserInStorage } from '@/utils/storage';
 
 type LoginProps = {
 
@@ -45,7 +46,7 @@ export default function Login<FunctionComponent> () {
         if (decodedData) {
           const userData = JSON.parse(decodedData.user);
           setAuthedUser(userData);
-          localStorage.setItem('authedUser', JSON.stringify(userData))
+          setUserInStorage(userData);
         }
       }
     }

@@ -12,6 +12,7 @@ type SidebarMenuItemProps = {
   link: string
   icon: React.ElementType
   pathname: string
+  onClick: () => void
 }
 
 
@@ -19,13 +20,14 @@ export default function SidebarMenuItem({
   name,
   link,
   icon: Icon,
-  pathname
+  pathname,
+  onClick
 }: SidebarMenuItemProps) {
   const isActivePath = link && pathname === link;
   const StyledSidebarMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => { return styles({theme, isActivePath})})
 
   return (
-    <StyledSidebarMenuItem>
+    <StyledSidebarMenuItem onClick={onClick}>
       <ListItemIcon>
         <Icon sx={{ color: 'white' }} />
       </ListItemIcon>
