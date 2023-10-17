@@ -13,6 +13,14 @@ import (
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
+type JWTClaim struct {
+  jwt.StandardClaims
+  Issuer     string    `json:"iss"`
+  Expires    time.Time `json:"exp"`
+  Authorized bool      `json:"authorized"`
+  User       string    `json:"user"`
+}
+
 func GenerateJWT(u *types.User) (string, error) {
   c := config.GetConfig()
   var buf bytes.Buffer
@@ -30,11 +38,11 @@ func GenerateJWT(u *types.User) (string, error) {
     return "", err
   }
   
-  claims := &jwt.MapClaims{
-    "iss": "issuer",
-    "exp": time.Now().Add(1440 * time.Minute),
-    "authorized": true,
-    "user": string(uJSON),
+  claims := &JWTClaim{
+    Issuer: "issuer",
+    Expires: time.Now().Add(1440 * time.Minute),
+    Authorized: true,
+    User: string(uJSON),
   }
 
   // create jwt token
@@ -48,6 +56,26 @@ func GenerateJWT(u *types.User) (string, error) {
   }
   
   return tokenString, nil
+}
+
+func ExpireJWT(jwtToken *string) (*string, error) {
+  c := config.GetConfig()
+
+  // parse token
+  t, err := jwt.ParseWithClaims(*jwtToken, &JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
+    return []byte(c.JWTKey), nil
+  })
+
+  fmt.Println("decoded token: ", t)
+
+  if err != nil {
+    return nil, err
+  }
+
+  claim := t.Claims.(*JWTClaim)
+  fmt.Println("claim", claim)
+  
+  return jwtToken, nil
 }
 
 func VerifyJWT(endpointHandler func(writer http.ResponseWriter, request *http.Request)) http.HandlerFunc {

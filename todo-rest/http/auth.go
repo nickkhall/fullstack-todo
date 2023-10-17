@@ -7,7 +7,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
+	"github.com/nickkhall/fullstack-todo/todo-rest/config"
 	postgresdb "github.com/nickkhall/fullstack-todo/todo-rest/db"
+	"github.com/nickkhall/fullstack-todo/todo-rest/middleware"
 )
 
 type UserInfo struct {
@@ -15,9 +18,13 @@ type UserInfo struct {
   Password string `json:"password"`
 }
 
-func Login(c *gin.Context) {
+type JWTRequestBody struct {
+  JWT string  `json:"jwt"`
+}
+
+func Login(ctx *gin.Context) {
   var user UserInfo
-  err := c.BindJSON(&user)
+  err := ctx.BindJSON(&user)
   if err != nil {
     log.Fatal(err)
   }
@@ -34,13 +41,27 @@ func Login(c *gin.Context) {
   fmt.Println("auth.Login() err: ", err)
 
   if err != nil {
-    c.JSON(http.StatusUnauthorized, gin.H{"success": false})
+    ctx.JSON(http.StatusUnauthorized, gin.H{"success": false})
     return
   }
 
-  c.JSON(http.StatusOK, gin.H{"success": true, "data": jwt})
+  ctx.JSON(http.StatusOK, gin.H{"success": true, "data": jwt})
 }
 
-func Logout(w http.ResponseWriter, r *http.Request) {
+func Logout(ctx *gin.Context) {
+  var j JWTRequestBody
+  if err := ctx.BindJSON(&j); err != nil {
+    log.Fatal(err)
+  }
 
+  token, err := jwt.ParseWithClaims(j.JWT, &middleware.JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
+    c := config.GetConfig()
+    return []byte(c.JWTKey), nil
+  })
+
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  fmt.Println("token: ", token)
 }
