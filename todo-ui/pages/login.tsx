@@ -15,6 +15,9 @@ import loginContainerStyles from '@/styles/Login/container';
 // Services
 import { login } from 'api/auth';
 
+// Utils
+import { decodeJWT } from '@/utils/jwt';
+
 type LoginProps = {
 
 }
@@ -36,10 +39,14 @@ export default function Login<FunctionComponent> () {
 
   const handleLogin = async ({ email, password }: LoginDataProps) => {
     if (email?.length && password?.length) {
-      const { data } = await login(email, password);
-      if (data) {
-        setAuthedUser(data);
-        localStorage.setItem('authedUser', JSON.stringify(data))
+      const { data: { data: jwt } } = await login(email, password);
+      if (jwt) {
+        const decodedData = decodeJWT(jwt);
+        if (decodedData) {
+          const userData = JSON.parse(decodedData.user);
+          setAuthedUser(userData);
+          localStorage.setItem('authedUser', JSON.stringify(userData))
+        }
       }
     }
   }

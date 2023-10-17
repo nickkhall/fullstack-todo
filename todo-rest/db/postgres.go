@@ -7,7 +7,8 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/nickkhall/fullstack-todo/todo-rest/config"
-	types "github.com/nickkhall/fullstack-todo/todo-rest/types"
+	"github.com/nickkhall/fullstack-todo/todo-rest/middleware"
+	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
 func Connect() (db *sql.DB, err error) {
@@ -27,7 +28,7 @@ func Close(db *sql.DB) {
   db.Close()
 }
 
-func Login(e *string, h *string) (*types.User, error) {
+func Login(e *string, h *string) (string, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -42,17 +43,22 @@ func Login(e *string, h *string) (*types.User, error) {
 
   // user does not exist
   if err == sql.ErrNoRows || err != nil {
-    return nil, err
+    return "", err
   }
 
   fmt.Println("user", u)
 
   // the user exists, return true 
   if string(u.Email) == *e {
-    return &u, nil
+    jwt, err := middleware.GenerateJWT(&u)
+    if err != nil {
+      return "", err
+    }
+
+    return jwt, nil
   }
 
-  return nil, nil
+  return "", nil
 }
  
 

@@ -30,14 +30,15 @@ func Login(c *gin.Context) {
   ph := fmt.Sprintf("%x", h.Sum(nil))
 
   // validate user with hashed password
-  u, err := postgresdb.Login(&user.Email, &ph)
+  jwt, err := postgresdb.Login(&user.Email, &ph)
+  fmt.Println("auth.Login() err: ", err)
 
   if err != nil {
     c.JSON(http.StatusUnauthorized, gin.H{"success": false})
     return
   }
 
-  c.JSON(http.StatusOK, gin.H{"success": true, "data": u})
+  c.JSON(http.StatusOK, gin.H{"success": true, "data": jwt})
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {

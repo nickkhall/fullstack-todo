@@ -14,6 +14,7 @@ type config struct {
   PSQLUser 	string `mapstructure:"PSQL_USER"`
   PSQLPassword	string `mapstructure:"PSQL_PASSWORD"`
   PSQLDBName    string `mapstructure:"PSQL_DB_NAME"`
+  JWTKey        string `mapstructure:"JWT_KEY"`
 }
 
 func SetEnvConfig(cfgFile string) {
