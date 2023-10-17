@@ -2,7 +2,7 @@ import { makeRequest } from 'api/http';
 
 export const login = async (email: string, password: string) => {
   if (email && password) {
-    const res = await makeRequest({
+    return makeRequest({
       path: '/login',
       method: 'POST',
       payload: {
@@ -10,10 +10,6 @@ export const login = async (email: string, password: string) => {
         password
       }
     })
-
-    const { data } = res;
-    console.log({ data });
-    return data;
   }
 
   return false;

@@ -1,8 +1,8 @@
 import type { FunctionComponent } from 'react'
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 // Context
-import AuthContext from '@/context/auth';
+import { AuthContext } from '@/context/auth';
 
 // Components
 import ContentSectionCentered from '@/components/content/centered';
@@ -24,18 +24,23 @@ type LoginDataProps = {
   password: string
 }
 
-export default function Login<FunctionComponent> ({ ...props }: LoginProps) {
+export default function Login<FunctionComponent> () {
   const StyledLoginContainer = styled('div')(loginContainerStyles);
+
+  const [_, setAuthedUser] = useContext(AuthContext);
 
   const inputs = [
     { name: 'email', label: 'Email' }, 
     { name: 'password', label: 'Password', type: 'password' }
   ];
 
-  function handleLogin({ email, password }: LoginDataProps) {
+  const handleLogin = async ({ email, password }: LoginDataProps) => {
     if (email?.length && password?.length) {
-      const isAuthed = login(email, password);
-      console.log({ isAuthed })
+      const { data } = await login(email, password);
+      if (data) {
+        setAuthedUser(data);
+        localStorage.setItem('authedUser', JSON.stringify(data))
+      }
     }
   }
 

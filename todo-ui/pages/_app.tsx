@@ -10,20 +10,17 @@ import { theme } from 'public/theme'
 import '../app/globals.css'
 
 // Components
-import RouteGuard from '@/components/routeGuard';
 import Layout from '@/components/app/layout';
 
 const App: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
   return (
-    <AuthProvider> 
-      <ThemeProvider theme={theme}>
-        <RouteGuard>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RouteGuard>
-      </ThemeProvider>
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <AuthProvider> 
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AuthProvider>
+    </ThemeProvider>
   )
 };
 
