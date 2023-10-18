@@ -1,5 +1,5 @@
 import type { FunctionComponent } from 'react'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 // Context
 import { AuthContext } from '@/context/auth';
@@ -7,6 +7,7 @@ import { AuthContext } from '@/context/auth';
 // Components
 import ContentSectionCentered from '@/components/content/centered';
 import Form from '@/components/form';
+import Loader from '@/components/loader';
 
 // Styles
 import { styled } from '@mui/material/styles';
@@ -17,7 +18,7 @@ import { login } from 'api/auth';
 
 // Utils
 import { decodeJWT } from '@/utils/jwt';
-import { setUserInStorage } from '@/utils/storage';
+import { setJWTInStorage } from '@/utils/storage';
 
 type LoginProps = {
 
@@ -28,9 +29,10 @@ type LoginDataProps = {
   password: string
 }
 
-export default function Login<FunctionComponent> () {
-  const StyledLoginContainer = styled('div')(loginContainerStyles);
+const StyledLoginContainer = styled('div')(loginContainerStyles);
 
+export default function Login<FunctionComponent> () {
+  const [isLoading, setIsLoading] = useState(false);
   const [_, setAuthedUser] = useContext(AuthContext);
 
   const inputs = [
@@ -39,17 +41,31 @@ export default function Login<FunctionComponent> () {
   ];
 
   const handleLogin = async ({ email, password }: LoginDataProps) => {
-    if (email?.length && password?.length) {
-      const { data: { data: jwt } } = await login(email, password);
-      if (jwt) {
-        const decodedData = decodeJWT(jwt);
-        if (decodedData) {
-          const userData = JSON.parse(decodedData.user);
-          setAuthedUser(userData);
-          setUserInStorage(userData);
-        }
-      }
+    if (!email?.length || !password?.length) return;
+
+    setIsLoading(true);
+
+    const { data: { data: jwt } } = await login(email, password);
+    console.log({ loginjwt: jwt })
+    if (!jwt) {
+      setIsLoading(false);
+      return;
     }
+
+    const decodedData = decodeJWT(jwt);
+    if (!decodedData) {
+      setIsLoading(false);
+      return;
+    }
+
+    const userData = JSON.parse(decodedData.user);
+    setAuthedUser(userData);
+    setJWTInStorage(jwt);
+    setIsLoading(false);
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (

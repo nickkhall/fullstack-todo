@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	config "github.com/nickkhall/fullstack-todo/todo-rest/config"
 	handlers "github.com/nickkhall/fullstack-todo/todo-rest/http"
+	"github.com/nickkhall/fullstack-todo/todo-rest/middleware"
 	"github.com/spf13/cobra"
 )
 
@@ -37,8 +38,10 @@ func init() {
     AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
     ExposeHeaders:    []string{"Content-Length"},
     AllowCredentials: true,
-    MaxAge:           12 * time.Hour,
+    MaxAge:           24 * time.Hour,
   }))
+
+  r.Use(middleware.TokenAuthMiddleware())
   
   // handlers
   // Auth

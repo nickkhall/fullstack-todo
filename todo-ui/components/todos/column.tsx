@@ -3,7 +3,7 @@ import Paper, { PaperProps } from '@mui/material/Paper'
 import Typography from '@mui/material/Typography';
 
 // Components
-import Todo from '@/components/todo';
+import Todo from './todo';
 
 import { styled } from '@mui/material/styles';
 import styles from '@/styles/Todo/column';

@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	postgresdb "github.com/nickkhall/fullstack-todo/todo-rest/db"
+	postgresdb "github.com/nickkhall/fullstack-todo/todo-rest/data"
 )
 
 type UserInfo struct {

@@ -5,6 +5,10 @@ const nextConfig = {
     dev: 'dev',
     staging: 'stg',
     prod: 'prod'
+  },
+  publicRuntimeConfig: {
+    restUrl: "http://localhost",
+    restPort: 5000
   }
 }
 

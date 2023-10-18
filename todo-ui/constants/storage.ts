@@ -1,1 +1,1 @@
-export const LOCAL_STORAGE_USER_KEY = 'authedUser';
+export const LOCAL_STORAGE_USER_KEY = 'userJWT';

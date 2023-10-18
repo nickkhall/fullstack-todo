@@ -1,4 +1,4 @@
-package postgresdb
+package data
 
 import (
 	"database/sql"
@@ -24,10 +24,6 @@ func Connect() (db *sql.DB, err error) {
   return db, dbErr 
 }
 
-func Close(db *sql.DB) {
-  db.Close()
-}
-
 func Login(e *string, h *string) (string, error) {
   // connect to postgres db
   db, err := Connect()
@@ -35,7 +31,7 @@ func Login(e *string, h *string) (string, error) {
     log.Fatal(err)
   }
 
-  defer Close(db)
+  defer db.Close()
 
   var u types.User
   row := db.QueryRow("SELECT username, email, last_login FROM public.user WHERE email = $1 AND password = $2;", *e, *h)
@@ -61,6 +57,3 @@ func Login(e *string, h *string) (string, error) {
   return "", nil
 }
  
-func Get(table *string, dataType *interface{}) (*[]map[string]string, error) {
-
-}

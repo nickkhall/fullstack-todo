@@ -1,24 +1,23 @@
 import { LOCAL_STORAGE_USER_KEY } from '@/constants/storage';
 
-export const getUserFromStorage = () => {
+export const getJWTFromStorage = () => {
   if (typeof window !== 'undefined') {
-    console.log({ LOCAL_STORAGE_USER_KEY });
-    const persistedAuthedUser = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
-    if (persistedAuthedUser) {
-      return JSON.parse(persistedAuthedUser);
+    const jwt = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
+    if (jwt) {
+      return jwt;
     }
   }
 
   return null;
 }
 
-export const setUserInStorage = (userData: any) => {
+export const setJWTInStorage = (jwt: string) => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userData));
+    localStorage.setItem(LOCAL_STORAGE_USER_KEY, jwt);
   }
 }
 
-export const removeUserFromStorage = () => {
+export const removeJWTFromStorage = () => {
   if (typeof window !== 'undefined') {
     localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
   }

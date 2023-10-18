@@ -2,6 +2,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useContext,
   createContext
 } from 'react';
 import { useRouter } from 'next/router';
@@ -10,23 +11,24 @@ import { useRouter } from 'next/router';
 import Loader from '@/components/loader';
 
 // Utils
-import { getUserFromStorage } from '@/utils/storage';
+import { getJWTFromStorage } from '@/utils/storage';
+import { decodeJWT } from '@/utils/jwt';
 
 export const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }: any) {
   const router = useRouter();
+  const [jwt, setJWT] = useState(null);
   const [authedUser, setAuthedUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const user = getUserFromStorage();
-
-  console.log({ authedUser, user });
+  const token = getJWTFromStorage();
+  const user = decodeJWT(token);
 
   const handleLoad = useCallback((userData: any) => {
-    console.log('handleLoad called', { user, authedUser });
-    if (userData) {
+    if (token && userData) {
       setAuthedUser(userData);
       setLoggedIn(true);
+      setJWT(token);
 
       router.push('/', undefined, { shallow: true })
       return;
@@ -42,6 +44,10 @@ export function AuthProvider({ children }: any) {
     handleLoad(user);
   }, [JSON.stringify(user)])
 
+  if (router.pathname !== '/login' && authedUser === null) {
+    return null
+  }
+
   return (
     <AuthContext.Provider value={[authedUser, setAuthedUser]}>
       {children}
@@ -49,5 +55,13 @@ export function AuthProvider({ children }: any) {
   );
 }
 
-export default AuthProvider;
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+
+  return context;
+}
 

@@ -3,7 +3,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 // Utils
-import { removeUserFromStorage } from '@/utils/storage';
+import { removeJWTFromStorage } from '@/utils/storage';
 
 export default [{
   name: 'Settings',
@@ -12,7 +12,7 @@ export default [{
   name: 'Logout',
   icon: LogoutIcon,
   onClick: () => {
-    removeUserFromStorage();
+    removeJWTFromStorage();
     window.location.reload();
   }
 }]

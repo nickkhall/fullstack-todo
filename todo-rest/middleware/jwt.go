@@ -5,9 +5,10 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"net/http"
+	"log"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt"
 	"github.com/nickkhall/fullstack-todo/todo-rest/config"
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
@@ -19,6 +20,10 @@ type JWTClaim struct {
   Expires    time.Time `json:"exp"`
   Authorized bool      `json:"authorized"`
   User       string    `json:"user"`
+}
+
+func DecodeJWT(t *jwt.Token) {
+
 }
 
 func GenerateJWT(u *types.User) (string, error) {
@@ -48,8 +53,6 @@ func GenerateJWT(u *types.User) (string, error) {
   // create jwt token
   token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
   
-  fmt.Println("c.JWTKey", c.JWTKey)
-  fmt.Println("[]byte(key)", key)
   tokenString, err := token.SignedString(key)
   if err != nil {
     return "", err
@@ -58,64 +61,34 @@ func GenerateJWT(u *types.User) (string, error) {
   return tokenString, nil
 }
 
-func ExpireJWT(jwtToken *string) (*string, error) {
+func respondWithError(c *gin.Context, code int, message interface{}) {
+  c.AbortWithStatusJSON(code, gin.H{"error": message})
+}
+
+func TokenAuthMiddleware() gin.HandlerFunc {
   c := config.GetConfig()
+  requiredToken := c.JWTKey
 
-  // parse token
-  t, err := jwt.ParseWithClaims(*jwtToken, &JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
-    return []byte(c.JWTKey), nil
-  })
-
-  fmt.Println("decoded token: ", t)
-
-  if err != nil {
-    return nil, err
+  // We want to make sure the token is set, fail if not
+  if requiredToken == "" {
+    log.Fatal("Please set JWT_KEY environment variable")
   }
 
-  claim := t.Claims.(*JWTClaim)
-  fmt.Println("claim", claim)
-  
-  return jwtToken, nil
-}
+  return func(c *gin.Context) {
+    token := c.Request.FormValue("Authorization")
+    fmt.Println("Authorization token: ", token)
 
-func VerifyJWT(endpointHandler func(writer http.ResponseWriter, request *http.Request)) http.HandlerFunc {
-  return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-    if request.Header["Token"] != nil {
-      token, err := jwt.Parse(request.Header["Token"][0], func(token *jwt.Token) (interface{}, error) {
-        _, ok := token.Method.(*jwt.SigningMethodECDSA)
-        if !ok {
-          writer.WriteHeader(http.StatusUnauthorized)
-          _, err := writer.Write([]byte("You're Unauthorized!"))
-          if err != nil {
-             return nil, err
-          }
-        }
-        return "", nil
-      })
-
-      if err != nil {
-	writer.WriteHeader(http.StatusUnauthorized)
-        _, err2 := writer.Write([]byte("You're Unauthorized due to error parsing the JWT"))
-        if err2 != nil {
-          return
-        }
-      }
-
-      if token.Valid {
-	endpointHandler(writer, request)
-      } else {
-	writer.WriteHeader(http.StatusUnauthorized)
-	_, err := writer.Write([]byte("You are unauthorized due to an invalid token."))
-	if err != nil {
-	  return
-	}
-      }
-    } else {
-      writer.WriteHeader(http.StatusUnauthorized)
-      _, err := writer.Write([]byte("You are unauthorized due to having NO token."))
-      if err != nil {
-        return
-      }
+    if token == "" {
+      respondWithError(c, 401, "API token required")
+      return
     }
-  })
+
+    if token != requiredToken {
+      respondWithError(c, 401, "Invalid API token")
+      return
+    }
+
+    c.Next()
+  }
 }
+

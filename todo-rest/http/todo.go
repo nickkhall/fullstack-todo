@@ -1,29 +1,30 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
-	"github.com/nickkhall/fullstack-todo/todo-rest/types"
+	"github.com/gin-gonic/gin"
+	"github.com/nickkhall/fullstack-todo/todo-rest/pkg"
 )
 
-func GetTodos(w http.ResponseWriter, r *http.Request) {
-  todos := []types.Todo{}
+func GetTodos(ctx *gin.Context) {
+  todos, err := pkg.GetTodos()
+  if err != nil {
+    ctx.JSON(http.StatusInternalServerError, gin.H{"success": false})
+    return
+  }
 
-  json.NewEncoder(w).Encode(todos)
+  ctx.JSON(http.StatusOK, gin.H{"success": true, "data": todos})
 }
 
-func GetTodo(w http.ResponseWriter, r *http.Request) {
-  todo := types.Todo{}
-
-  json.NewEncoder(w).Encode(todo)
+func GetTodo() {
 }
 
-func CreateTodo(w http.ResponseWriter, r *http.Request) {
+func CreateTodo() {
 }
 
-func UpdateTodo(w http.ResponseWriter, r *http.Request) {
+func UpdateTodo() {
 }
 
-func DeleteTodo(w http.ResponseWriter, r *http.Request) {
+func DeleteTodo() {
 }

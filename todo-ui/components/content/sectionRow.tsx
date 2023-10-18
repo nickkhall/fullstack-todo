@@ -6,15 +6,15 @@ import { styled } from '@mui/material/styles';
 import styles from '@/styles/Content/section';
 
 type ContentSectionProps = {
-  children: ReactNode
+  children: JSX.Element[]
 }
 
-export default function ContentSection ({ children }): ContentSectionProps {
-  const StyledContentSection = styled(Paper)<PaperProps>(styles);
+export default function ContentSectionRow ({ children }: ContentSectionProps) {
+  const StyledContentSectionRow = styled(Paper)<PaperProps>(styles);
 
   return (
-    <StyledContentSection>
+    <StyledContentSectionRow>
       {children}
-    </StyledContentSection>
+    </StyledContentSectionRow>
   )
 }
