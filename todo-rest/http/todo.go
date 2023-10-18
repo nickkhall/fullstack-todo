@@ -3,24 +3,18 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
-type Todo struct {
-  ID          string `json:"id"`
-  Name        string `json:"name"`
-  Description string `json:"description"`
-  CreatedAt   int    `json:"createdAt"`
-  Completed   bool   `json:"completed"`
-}
-
 func GetTodos(w http.ResponseWriter, r *http.Request) {
-  todos := []Todo{}
+  todos := []types.Todo{}
 
   json.NewEncoder(w).Encode(todos)
 }
 
 func GetTodo(w http.ResponseWriter, r *http.Request) {
-  todo := Todo{}
+  todo := types.Todo{}
 
   json.NewEncoder(w).Encode(todo)
 }

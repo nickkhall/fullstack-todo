@@ -38,7 +38,7 @@ func Login(e *string, h *string) (string, error) {
   defer Close(db)
 
   var u types.User
-  row := db.QueryRow("SELECT username, email, last_login FROM public.user WHERE email = $1 AND password = $2", *e, *h)
+  row := db.QueryRow("SELECT username, email, last_login FROM public.user WHERE email = $1 AND password = $2;", *e, *h)
   err = row.Scan(&u.Username, &u.Email, &u.LastLogin);
 
   // user does not exist
@@ -61,4 +61,6 @@ func Login(e *string, h *string) (string, error) {
   return "", nil
 }
  
+func Get(table *string, dataType *interface{}) (*[]map[string]string, error) {
 
+}

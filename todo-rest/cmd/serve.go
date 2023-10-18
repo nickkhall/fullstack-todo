@@ -15,36 +15,40 @@ var cfgFile string
 
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
-	Use:   "serve",
-	Short: "",
-	Long: ``,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serve called")
-	},
+  Use:   "serve",
+  Short: "",
+  Long: ``,
+  Run: func(cmd *cobra.Command, args []string) {
+    fmt.Println("serve called")
+  },
 }
 
 func init() {
-	rootCmd.AddCommand(serveCmd)
+  rootCmd.AddCommand(serveCmd)
+  
+  // setup .env config file
+  config.SetEnvConfig(cfgFile)
+  
+  
+  r := gin.Default()
+  r.Use(cors.New(cors.Config{
+    AllowOrigins:     []string{"http://localhost:3000"},
+    AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+    AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
+    ExposeHeaders:    []string{"Content-Length"},
+    AllowCredentials: true,
+    MaxAge:           12 * time.Hour,
+  }))
+  
+  // handlers
+  // Auth
+  r.POST("/login", handlers.Login) 
 
-	// setup .env config file
-	config.SetEnvConfig(cfgFile)
-
-
-	r := gin.Default()
-	r.Use(cors.New(cors.Config{
-	  AllowOrigins:     []string{"http://localhost:3000"},
-    	  AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
-    	  AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
-    	  ExposeHeaders:    []string{"Content-Length"},
-    	  AllowCredentials: true,
-    	  MaxAge:           12 * time.Hour,
-	}))
-
-	// handlers
-	r.POST("/login", handlers.Login) 
-
-	// run http server
-	r.Run("localhost:5000")
+  // Todos
+  r.GET("/todos", handlers.GetTodos)
+  
+  // run http server
+  r.Run("localhost:5000")
 }
 
 
