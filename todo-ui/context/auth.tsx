@@ -24,7 +24,7 @@ export function AuthProvider({ children }: any) {
   const token = getJWTFromStorage();
   const user = decodeJWT(token);
 
-  const handleLoad = useCallback((userData: any) => {
+  const handleLoad = (userData: any) => {
     if (token && userData) {
       setAuthedUser(userData);
       setLoggedIn(true);
@@ -38,11 +38,11 @@ export function AuthProvider({ children }: any) {
       setLoggedIn(false);
       router.push('/login', undefined, { shallow: true })
     }
-  }, [])
+  }
 
   useEffect(() => {
     handleLoad(user);
-  }, [JSON.stringify(user)])
+  }, [token])
 
   if (router.pathname !== '/login' && authedUser === null) {
     return null

@@ -66,27 +66,43 @@ func respondWithError(c *gin.Context, code int, message interface{}) {
 }
 
 func TokenAuthMiddleware() gin.HandlerFunc {
-  c := config.GetConfig()
-  requiredToken := c.JWTKey
-
-  // We want to make sure the token is set, fail if not
-  if requiredToken == "" {
-    log.Fatal("Please set JWT_KEY environment variable")
-  }
-
   return func(c *gin.Context) {
-    token := c.Request.FormValue("Authorization")
-    fmt.Println("Authorization token: ", token)
-
-    if token == "" {
-      respondWithError(c, 401, "API token required")
+    path := c.FullPath()
+    if (path == "/login") {
+      c.Next()
       return
     }
 
-    if token != requiredToken {
-      respondWithError(c, 401, "Invalid API token")
-      return
+    cfg := config.GetConfig()
+    requiredToken := cfg.JWTKey
+
+    // We want to make sure the token is set, fail if not
+    if requiredToken == "" {
+      log.Fatal("Please set JWT_KEY environment variable")
     }
+
+    jwtToken := c.GetHeader("Authorization")[7:]
+    claim := &JWTClaim{}
+    token, err := jwt.ParseWithClaims(jwtToken, *claim, func(token *jwt.Token) (interface{}, error) {
+      return []byte(cfg.JWTKey), nil
+    })
+
+    fmt.Println("token: ", token)
+
+    if err != nil {
+      log.Fatal(err)
+      respondWithError(c, 401, "API token invalid")
+    }
+
+    //if *token == "" {
+    //  respondWithError(c, 401, "API token required")
+    //  return
+    //}
+
+    //if *token != requiredToken {
+    //  respondWithError(c, 401, "Invalid API token")
+    //  return
+    //}
 
     c.Next()
   }

@@ -46,7 +46,6 @@ export default function Login<FunctionComponent> () {
     setIsLoading(true);
 
     const { data: { data: jwt } } = await login(email, password);
-    console.log({ loginjwt: jwt })
     if (!jwt) {
       setIsLoading(false);
       return;
@@ -61,7 +60,6 @@ export default function Login<FunctionComponent> () {
     const userData = JSON.parse(decodedData.user);
     setAuthedUser(userData);
     setJWTInStorage(jwt);
-    setIsLoading(false);
   }
 
   if (isLoading) {
