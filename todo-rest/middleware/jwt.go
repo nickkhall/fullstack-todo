@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"log"
 	"time"
 
@@ -82,27 +81,19 @@ func TokenAuthMiddleware() gin.HandlerFunc {
     }
 
     jwtToken := c.GetHeader("Authorization")[7:]
-    claim := &JWTClaim{}
-    token, err := jwt.ParseWithClaims(jwtToken, *claim, func(token *jwt.Token) (interface{}, error) {
+    _, err := jwt.ParseWithClaims(jwtToken, &JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
       return []byte(cfg.JWTKey), nil
     })
 
-    fmt.Println("token: ", token)
-
     if err != nil {
-      log.Fatal(err)
       respondWithError(c, 401, "API token invalid")
+      return
     }
 
-    //if *token == "" {
-    //  respondWithError(c, 401, "API token required")
-    //  return
-    //}
-
-    //if *token != requiredToken {
-    //  respondWithError(c, 401, "Invalid API token")
-    //  return
-    //}
+    if jwtToken == "" {
+      respondWithError(c, 401, "API token required")
+      return
+    }
 
     c.Next()
   }

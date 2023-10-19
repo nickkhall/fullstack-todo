@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ import (
 func GetTodos(ctx *gin.Context) {
   todos, err := pkg.GetTodos()
   if err != nil {
+    log.Print("GET /todos - ERROR: ", err)
     ctx.JSON(http.StatusInternalServerError, gin.H{"success": false})
     return
   }

@@ -7,4 +7,5 @@ type Todo struct {
   CreatedAt   int    `json:"createdAt"`
   Completed   bool   `json:"completed"`
   CompleteBy  int    `json:"complete_by"`
+  UserID      string `json:"user_id"`
 }

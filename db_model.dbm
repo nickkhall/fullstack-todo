@@ -50,16 +50,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<position x="440" y="60"/>
 	<column name="id" not-null="true">
-		<type name="uuid" length="255"/>
+		<type name="character varying" length="255"/>
 	</column>
 	<column name="name" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="description">
 		<type name="character varying" length="255"/>
-	</column>
-	<column name="create_at" not-null="true">
-		<type name="integer" length="0"/>
 	</column>
 	<column name="completed" not-null="true">
 		<type name="boolean" length="0"/>
@@ -69,6 +66,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="user_id">
 		<type name="uuid" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="integer" length="0"/>
 	</column>
 	<constraint name="todos_pkey" type="pk-constr" table="public.todos">
 		<columns names="id" ref-type="src-columns"/>

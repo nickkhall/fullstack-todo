@@ -15,7 +15,7 @@ func GetTodos() (*[]types.Todo, error) {
 
   defer db.Close()
 
-  rows, err := db.Query("SELECT * FROM todos;")
+  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, user_id FROM todos;")
   if err != nil {
     return nil, err
   }
@@ -26,7 +26,7 @@ func GetTodos() (*[]types.Todo, error) {
 
   for rows.Next() {
     var todo types.Todo
-    err := rows.Scan(&todo.ID, &todo.Name, &todo.Description, &todo.CreatedAt, &todo.Completed, &todo.CompleteBy)
+    err := rows.Scan(&todo.ID, &todo.Name, &todo.Description, &todo.CreatedAt, &todo.Completed, &todo.CompleteBy, &todo.UserID)
     if err != nil {
       return nil, err
     }
