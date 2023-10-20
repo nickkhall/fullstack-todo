@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react'; 
+import { ReactNode, useState, useEffect, useCallback } from 'react'; 
 import Paper, { PaperProps } from '@mui/material/Paper'
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import Divider, { DividerProps } from '@mui/material/Divider';
@@ -44,9 +44,9 @@ export default function Column ({ columnName, todos }: ColumnProps) {
   const [sortedTodos, setSortedTodos] = useState(todos);
   const [originalTodos] = useState(todos);
 
-  const sortByOrder = () => {
+  const sortByOrder = useCallback(() => {
     if (todos?.length) {
-      setSortedTodos(todos.sort((a: {}, b: {}) => {
+      setSortedTodos(todos.sort((a: any, b: any) => {
         console.log({ sortType, 'a[sortType]': a[sortType] });
         if (typeof a[sortType] === 'boolean') {
           if (!a[sortType] && b[sortType]) return sortOrder === 'asc' ? 1 : -1;
@@ -59,7 +59,7 @@ export default function Column ({ columnName, todos }: ColumnProps) {
         return 0;
       }))
     }
-  }
+  }, [sortOrder, sortType, todos])
 
   const changeSortByOrder = (order: string) => {
     setSortOrder(order);
@@ -73,6 +73,9 @@ export default function Column ({ columnName, todos }: ColumnProps) {
     setSortType(value);
   }
 
+  const handleTodoCompletion = ({ target: { value }}) => {
+    console.log({ value });
+  }
 
   useEffect(() => {
     sortByOrder();
@@ -111,8 +114,8 @@ export default function Column ({ columnName, todos }: ColumnProps) {
       <StyledDivider />
       <section>
         {sortedTodos?.length
-          ? sortedTodos?.map(todo => (
-            <Todo key={todo.name} {...todo} />
+          ? sortedTodos?.map((todo: any) => (
+            <Todo key={todo.name} handleCompleted={handleTodoCompletion} {...todo} />
           ))
           : null
         }

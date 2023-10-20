@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 
 type DropdownMenuProps = {
   items: { name: string, key: string }[]
-  handleChange: () => void
+  handleChange: ({ target: { value } }: { target: { value: any; }; }) => void
   selectedItem: string
 }
 
