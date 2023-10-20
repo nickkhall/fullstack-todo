@@ -9,16 +9,19 @@ import InlineLoader from '@/components/loader/inline';
 import TodoColumn from './column';
 
 export default function Todos() {
-  const [todos, setTodos] = useState(null);
+  const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const getData = async () => {
+    const { data: { data: t } } = await getTodos();
+
+    if (todos) {
+      setTodos(t);
+    }
+  }
+
   useEffect(() => {
-    // @TODO: Turn into hook
-    // setIsLoading(true);
-
-    getTodos();
-
-    // setIsLoading(false);
+    getData()
 
   }, [JSON.stringify(todos)])
 
@@ -28,9 +31,9 @@ export default function Todos() {
 
   return (
     <ContentSectionRow>
-      <TodoColumn columnName={'Today'} />
-      <TodoColumn columnName={'Tomorrow'} />
-      <TodoColumn columnName={'Next Week'} />
+      <TodoColumn columnName={'Today'} todos={todos} />
+      <TodoColumn columnName={'Tomorrow'} todos={[]}/>
+      <TodoColumn columnName={'Next Week'} todos={[]} />
     </ContentSectionRow>
   )
 }

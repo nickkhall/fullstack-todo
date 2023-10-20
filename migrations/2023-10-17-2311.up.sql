@@ -13,17 +13,17 @@
 SET search_path=public,pg_catalog;
 -- ddl-end --
 
-
 -- [ Created objects ] --
--- object: user_id | type: COLUMN --
--- ALTER TABLE public.todos DROP COLUMN IF EXISTS user_id CASCADE;
-ALTER TABLE public.todos ADD COLUMN user_id uuid;
--- ddl-end --
+-- object: public."user" | type: TABLE --
+-- DROP TABLE IF EXISTS public."user" CASCADE;
+CREATE TABLE public."todos" (
+	id uuid NOT NULL,
+	name varchar(255) NOT NULL,
+	description varchar(255) NOT NULL,
+	created_at int NOT NULL,
+	completed boolean NOT NULL,
+	complete_by int,
+	user_id uuid
+);
 
-
-
-
--- [ Changed objects ] --
-ALTER TABLE public.todos ALTER COLUMN id TYPE uuid;
--- ddl-end --
 

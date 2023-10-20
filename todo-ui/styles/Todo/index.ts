@@ -5,6 +5,7 @@ export default ({ theme }: any) => ({
   margin: '5px 0',
   padding: 10,
   '&:hover': {
-    
+    background: theme.palette.accent.secondary,
+    cursor: 'pointer'
   }
 })
