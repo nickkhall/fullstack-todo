@@ -19,16 +19,14 @@ func GetTodos(email string) (*[]types.Todo, error) {
 
   var id string
   fmt.Println("email: ", email)
-  row := db.QueryRow("SELECT id FROM user WHERE email = $1", email)
+  row := db.QueryRow("SELECT id FROM public.user WHERE email = $1;", email)
   err = row.Scan(&id)
-
-  fmt.Println("id: ", id)
 
   if err != nil {
     return nil, err
   }
 
-  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, user_id, COALESCE(completed_at, 0) FROM todos WHERE user_id = $1;", id)
+  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, user_id, COALESCE(completed_at, 0) FROM public.todos WHERE user_id = $1;", id)
   if err != nil {
     return nil, err
   }
