@@ -1,9 +1,9 @@
 export default ({ theme }: any) => ({
   alignItems: 'center',
-  background: theme.palette.dark.primary,
+  background: theme.palette.dark.linearDiagonalReverse,
   borderRadius: '4px',
   display: 'flex',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
   maxHeight: 100,
   marginBottom: 15,
   padding: 10,

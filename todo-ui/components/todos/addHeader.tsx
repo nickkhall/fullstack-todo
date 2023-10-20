@@ -10,6 +10,9 @@ import { addTodoColumnInputs } from '@/constants/Todos/addTodoColumnInputs';
 import { styled } from '@mui/material/styles';
 import addTodoColumnHeaderStyles from '@/styles/Todo/addColumnHeader';
 
+// API
+import { createTodoColumn } from '@/api/todos';
+
 type AddTodosHeaderProps = {
   onAddColumn: (name: string) => void
 }
@@ -18,11 +21,11 @@ const StyledHeader = styled('div')(addTodoColumnHeaderStyles);
 
 export default function AddTodosHeader({ onAddColumn }: AddTodosHeaderProps) {
   const [isAddingColumn, setIsAddingColumn] = useState(false);
-  const [columnName, setColumnName] = useState('');
 
-  const handleAddColumn = () => {
-    if (columnName) {
-      onAddColumn(columnName);
+  const handleAddColumn = (values: { Name: string }) => {
+    if (values?.Name) {
+      createTodoColumn(values.Name);
+      setIsAddingColumn(false);
     }
   }
 

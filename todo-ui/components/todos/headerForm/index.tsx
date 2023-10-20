@@ -6,6 +6,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import IconButton from '@mui/material/IconButton';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Button, { ButtonProps } from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 // Styles
 import { styled } from '@mui/material/styles';
@@ -58,6 +59,7 @@ export default function Form({
 
   return (
     <StyledForm noValidate autoComplete="off" onSubmit={handleSubmit}>
+      {!isAddingColumn && <Typography variant="h5" sx={{ color: 'white' }}>My Todos</Typography>}
       {isAddingColumn && inputs?.length && (
         <>
           {inputs.map((i: Input, index) => (
