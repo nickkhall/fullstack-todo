@@ -17,6 +17,7 @@ type AddTodosHeaderProps = {
 const StyledHeader = styled('div')(addTodoColumnHeaderStyles);
 
 export default function AddTodosHeader({ onAddColumn }: AddTodosHeaderProps) {
+  const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [columnName, setColumnName] = useState('');
 
   const handleAddColumn = () => {
@@ -25,9 +26,19 @@ export default function AddTodosHeader({ onAddColumn }: AddTodosHeaderProps) {
     }
   }
 
+  const handleIsAddingColumn = () => {
+    setIsAddingColumn(!isAddingColumn);
+  }
+
   return (
     <StyledHeader>
-      <AddTodoColumnForm inputs={addTodoColumnInputs} buttonText="Add" onSubmit={handleAddColumn} />
+      <AddTodoColumnForm
+        isAddingColumn={isAddingColumn}
+        onIsAddingColumn={handleIsAddingColumn}
+        inputs={addTodoColumnInputs}
+        buttonText="Add"
+        onSubmit={handleAddColumn}
+      />
     </StyledHeader>
   );
 }

@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import formStyles from '@/styles/Form';
 import inputStyles from '@/styles/Form/input';
 import textFieldStyles from '@/styles/Form/textField';
-import buttonStyles from '@/styles/Form/button';
+import buttonGreenStyles from '@/styles/Form/buttonGreen';
 
 type Input = {
   name: string
@@ -24,7 +24,7 @@ type FormProps = {
 
 const StyledForm = styled('form')(formStyles);
 const StyledTextField = styled(TextField)<TextFieldProps>(textFieldStyles);
-const StyledButton = styled(Button)<ButtonProps>(buttonStyles);
+const StyledButton = styled(Button)<ButtonProps>(buttonGreenStyles);
 
 export default function Form({
   inputs,

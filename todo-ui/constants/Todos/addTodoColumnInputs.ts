@@ -1,3 +1,3 @@
 export const addTodoColumnInputs = [
-  { name: 'Name', label: 'Name' }  
+  { name: 'Name', label: 'Column Name' }  
 ]
