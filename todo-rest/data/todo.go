@@ -1,13 +1,14 @@
 package data
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/google/uuid"
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
-func GetTodos() (*[]types.Todo, error) {
+func GetTodos(email string) (*[]types.Todo, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -16,7 +17,18 @@ func GetTodos() (*[]types.Todo, error) {
 
   defer db.Close()
 
-  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, user_id, COALESCE(completed_at, 0) FROM todos;")
+  var id string
+  fmt.Println("email: ", email)
+  row := db.QueryRow("SELECT id FROM user WHERE email = $1", email)
+  err = row.Scan(&id)
+
+  fmt.Println("id: ", id)
+
+  if err != nil {
+    return nil, err
+  }
+
+  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, user_id, COALESCE(completed_at, 0) FROM todos WHERE user_id = $1;", id)
   if err != nil {
     return nil, err
   }

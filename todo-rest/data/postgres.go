@@ -42,8 +42,6 @@ func Login(e *string, h *string) (string, error) {
     return "", err
   }
 
-  fmt.Println("user", u)
-
   // the user exists, return true 
   if string(u.Email) == *e {
     jwt, err := middleware.GenerateJWT(&u)

@@ -13,14 +13,6 @@ import (
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
-type JWTClaim struct {
-  jwt.StandardClaims
-  Issuer     string    `json:"iss"`
-  Expires    time.Time `json:"exp"`
-  Authorized bool      `json:"authorized"`
-  User       string    `json:"user"`
-}
-
 func DecodeJWT(t *jwt.Token) {
 
 }
@@ -42,7 +34,7 @@ func GenerateJWT(u *types.User) (string, error) {
     return "", err
   }
   
-  claims := &JWTClaim{
+  claims := &types.JWTClaim{
     Issuer: "issuer",
     Expires: time.Now().Add(1440 * time.Minute),
     Authorized: true,
@@ -81,7 +73,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
     }
 
     jwtToken := c.GetHeader("Authorization")[7:]
-    _, err := jwt.ParseWithClaims(jwtToken, &JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
+    _, err := jwt.ParseWithClaims(jwtToken, &types.JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
       return []byte(cfg.JWTKey), nil
     })
 

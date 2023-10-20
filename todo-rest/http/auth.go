@@ -35,7 +35,6 @@ func Login(ctx *gin.Context) {
 
   // validate user with hashed password
   jwt, err := postgresdb.Login(&user.Email, &ph)
-  fmt.Println("auth.Login() err: ", err)
 
   if err != nil {
     ctx.JSON(http.StatusUnauthorized, gin.H{"success": false})
