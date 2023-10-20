@@ -1,14 +1,13 @@
 package data
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/google/uuid"
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
-func GetTodos(email string) (*[]types.Todo, error) {
+func GetTodos(email string) (*[]types.TodoResponse, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -18,7 +17,6 @@ func GetTodos(email string) (*[]types.Todo, error) {
   defer db.Close()
 
   var id string
-  fmt.Println("email: ", email)
   row := db.QueryRow("SELECT id FROM public.user WHERE email = $1;", email)
   err = row.Scan(&id)
 
@@ -26,23 +24,44 @@ func GetTodos(email string) (*[]types.Todo, error) {
     return nil, err
   }
 
-  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, user_id, COALESCE(completed_at, 0) FROM public.todos WHERE user_id = $1;", id)
+  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, COALESCE(completed_at, 0), group_id FROM public.todos WHERE user_id = $1;", id)
   if err != nil {
     return nil, err
   }
 
   defer rows.Close()
 
-  var todos []types.Todo
+  var todos []types.TodoResponse
 
   for rows.Next() {
     var todo types.Todo
-    err := rows.Scan(&todo.ID, &todo.Name, &todo.Description, &todo.CreatedAt, &todo.Completed, &todo.CompleteBy, &todo.UserID, &todo.CompletedAt)
+    err := rows.Scan(&todo.ID, &todo.Name, &todo.Description, &todo.CreatedAt, &todo.Completed, &todo.CompleteBy, &todo.CompletedAt, &todo.GroupID)
     if err != nil {
       return nil, err
     }
 
-    todos = append(todos, todo) 
+    var columnName string
+    row := db.QueryRow("SELECT name FROM public.todo_groups WHERE id = $1;", todo.GroupID)
+    err = row.Scan(&columnName)
+
+    if err != nil {
+      return nil, err
+    }
+
+    t := types.ColumnsTodo{
+      ID: todo.ID,
+      Name: todo.Name,
+      Description: todo.Description,
+      CreatedAt: todo.CreatedAt,
+      Completed: todo.Completed,
+      CompleteBy: todo.CompleteBy,
+      CompletedAt: todo.CompletedAt,
+    }
+
+    todos = append(todos, t) 
+    tr := types.TodoResponse{
+      Columns: { columnName: todos },
+    }
   }
 
   err = rows.Err()
