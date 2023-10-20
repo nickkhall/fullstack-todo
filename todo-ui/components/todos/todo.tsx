@@ -6,6 +6,7 @@ import styles from '@/styles/Todo';
 
 type TodoProps = {
   name: string
+  key: string
 }
 
 export default function Todo ({ name }: TodoProps) {

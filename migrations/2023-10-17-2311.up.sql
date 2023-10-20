@@ -24,6 +24,7 @@ CREATE TABLE public."todos" (
 	completed boolean NOT NULL,
 	complete_by int,
 	user_id uuid
+	completed_at int
 );
 
 

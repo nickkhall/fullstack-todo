@@ -22,6 +22,9 @@ export const theme = createTheme({
     text: {
       primary: '#000',
       secondary: '#FFF'
+    },
+    arbitrary: {
+      red: '#8B0000'
     }
   }
 })

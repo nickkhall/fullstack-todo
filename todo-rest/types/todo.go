@@ -8,4 +8,5 @@ type Todo struct {
   Completed   bool   `json:"completed"`
   CompleteBy  int    `json:"complete_by"`
   UserID      string `json:"user_id"`
+  CompletedAt int    `json:"completed_at"`
 }

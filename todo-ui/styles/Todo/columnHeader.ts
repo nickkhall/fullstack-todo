@@ -3,7 +3,9 @@ export default ({ theme }: any) => ({
   background: theme.palette.dark.linear,
   borderRadius: 4,
   display: 'flex',
-  justifyContent: 'space-between',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
   maxHeight: 200,
-  padding: 10
+  padding: 10,
+  width: '100%'
 })
