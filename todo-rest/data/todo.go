@@ -31,7 +31,7 @@ func GetTodos(email string) (*[]types.TodoResponse, error) {
 
   defer rows.Close()
 
-  var todos []types.TodoResponse
+  var todos []types.ColumnsTodo
 
   for rows.Next() {
     var todo types.Todo
@@ -59,9 +59,22 @@ func GetTodos(email string) (*[]types.TodoResponse, error) {
     }
 
     todos = append(todos, t) 
-    tr := types.TodoResponse{
-      Columns: { columnName: todos },
+    type todoMap map[string][]types.ColumnsTodo
+    var todoSlice []map[string][]types.ColumnsTodo
+
+    var tm todoMap
+
+    if tm[columnName] == nil {
+      tm[columnName] = todos
     }
+
+    todoSlice = append(todoSlice, tm)
+
+    tr := types.TodoResponse{
+      Columns: todoSlice,
+    }
+
+    return &tr, nil
   }
 
   err = rows.Err()

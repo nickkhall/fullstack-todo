@@ -28,5 +28,5 @@ type ColumnsTodo struct {
 }
 
 type TodoResponse struct {
-  Columns  map[string][]ColumnsTodo `json:"columns"`
+  Columns []map[string][]ColumnsTodo `json:"columns"`
 }
