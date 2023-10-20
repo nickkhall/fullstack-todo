@@ -49,6 +49,7 @@ func init() {
 
   // Todos
   r.GET("/todos", handlers.GetTodos)
+  r.POST("/todos/columns", handlers.CreateTodoColumn)
   
   // run http server
   r.Run("localhost:5000")

@@ -14,3 +14,12 @@ func GetTodos() (*[]types.Todo, error) {
 
 	return todos, nil
 }
+
+func CreateTodoColumn(name string) (string, error) {
+	col, err := data.CreateTodoColumn(name)
+	if err != nil {
+		return "", err
+	}
+
+	return col, nil
+}

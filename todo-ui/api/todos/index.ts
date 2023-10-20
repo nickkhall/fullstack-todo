@@ -7,7 +7,7 @@ export const getTodos = async () => makeRequest({ path: '/todos' });
 
 export const createTodoColumn = async (columnName: string) => 
   makeRequest({
-    path: '/todos/column',
+    path: '/todos/columns',
     method: 'POST',
     payload: { name: columnName }
   })

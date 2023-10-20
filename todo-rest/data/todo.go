@@ -3,6 +3,7 @@ package data
 import (
 	"log"
 
+	"github.com/google/uuid"
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
@@ -40,4 +41,23 @@ func GetTodos() (*[]types.Todo, error) {
   }
 
   return &todos, nil
+}
+
+func CreateTodoColumn(name string) (string, error) {
+  // connect to postgres db
+  db, err := Connect()
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  defer db.Close()
+
+  id := uuid.New()
+
+  _, dbErr := db.Query("INSERT INTO todo_groups (id, name) VALUES($1, $2)", id, name)
+  if err != nil {
+    return "", dbErr
+  }
+
+  return name, nil
 }
