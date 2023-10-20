@@ -27,4 +27,4 @@ CREATE TABLE public."todos" (
 	completed_at int
 );
 
-
+CREATE TABLE todo_groups (id uuid NOT NULL, name varchar(255) NOT NULL);

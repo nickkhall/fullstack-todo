@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import { getTodos } from '@/api/todos';
 
 // Components
-import ContentSectionRow from '@/components/content/sectionRow';
+import ContentSectionColumn from '@/components/content/sectionColumn';
 import InlineLoader from '@/components/loader/inline';
 import TodoColumn from './column';
+import AddTodosHeader from './addHeader';
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
@@ -29,11 +30,14 @@ export default function Todos() {
     return <InlineLoader /> 
   }
 
+  const handleAddColumn = (name: string) => {
+    console.log({ name });
+  }
+
   return (
-    <ContentSectionRow>
+    <ContentSectionColumn>
+      <AddTodosHeader onAddColumn={handleAddColumn} />
       <TodoColumn columnName={'Today'} todos={todos} />
-      <TodoColumn columnName={'Tomorrow'} todos={[]}/>
-      <TodoColumn columnName={'Next Week'} todos={[]} />
-    </ContentSectionRow>
+    </ContentSectionColumn>
   )
 }
