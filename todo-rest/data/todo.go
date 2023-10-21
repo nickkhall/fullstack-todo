@@ -1,13 +1,14 @@
 package data
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/google/uuid"
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
-func GetTodos(email string) (*[]types.TodoResponse, error) {
+func GetTodos(email string) (*types.TodoResponse, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -32,6 +33,12 @@ func GetTodos(email string) (*[]types.TodoResponse, error) {
   defer rows.Close()
 
   var todos []types.ColumnsTodo
+  type todoMap map[string][]types.ColumnsTodo
+  //var todoSlice []map[string][]types.ColumnsTodo
+  var tm todoMap
+  var tr types.TodoResponse
+
+  todoSlice := make([]map[string][]types.ColumnsTodo, 1)
 
   for rows.Next() {
     var todo types.Todo
@@ -59,22 +66,21 @@ func GetTodos(email string) (*[]types.TodoResponse, error) {
     }
 
     todos = append(todos, t) 
-    type todoMap map[string][]types.ColumnsTodo
-    var todoSlice []map[string][]types.ColumnsTodo
 
-    var tm todoMap
+    fmt.Println("tm: ", tm)
+    fmt.Println("todos: ", todos)
 
     if tm[columnName] == nil {
-      tm[columnName] = todos
+      mapEntry := map[string][]types.ColumnsTodo{
+	[columnName]: todos,
+      }
+      todoSlice = append(todoSlice, mapEntry)
     }
 
-    todoSlice = append(todoSlice, tm)
 
-    tr := types.TodoResponse{
+    tr = types.TodoResponse{
       Columns: todoSlice,
     }
-
-    return &tr, nil
   }
 
   err = rows.Err()
@@ -82,7 +88,7 @@ func GetTodos(email string) (*[]types.TodoResponse, error) {
     return nil, err
   }
 
-  return &todos, nil
+  return &tr, nil
 }
 
 func CreateTodoColumn(name string) (string, error) {

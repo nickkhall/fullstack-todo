@@ -5,7 +5,7 @@ import (
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
 
-func GetTodos(email string) (*[]types.TodoResponse, error) {
+func GetTodos(email string) (*types.TodoResponse, error) {
 	todos, err := data.GetTodos(email)
 
 	if err != nil {
