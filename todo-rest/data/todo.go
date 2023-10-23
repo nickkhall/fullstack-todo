@@ -25,36 +25,17 @@ func GetUserTodosByColumn(email string) (*types.TodoResponse, error) {
     return nil, err
   }
 
-  // get todo groups
+  // get todo groups with todos
   todoGroups, err := GetTodoGroups(&userID, db)
   if err != nil {
     return nil, err
   }
-  
-  // iterate through group ids
   
   tr := types.TodoResponse{
     Columns: *todoGroups,
   }
   
   return &tr, nil
-}
-
-func CreateTodoColumn(name string) (string, error) {
-  // connect to postgres db
-  db, err := Connect()
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  id := uuid.New()
-
-  _, dbErr := db.Query("INSERT INTO todo_groups (id, name) VALUES($1, $2)", id, name)
-  if err != nil {
-    return "", dbErr
-  }
-
-  return name, nil
 }
 
 func GetTodos(userID *string, groupID *string, db *sql.DB) (*[]types.ColumnsTodo, error) {
@@ -93,4 +74,21 @@ func GetTodos(userID *string, groupID *string, db *sql.DB) (*[]types.ColumnsTodo
   }
 
   return &todos, nil
+}
+
+func CreateTodoColumn(name string) (string, error) {
+  // connect to postgres db
+  db, err := Connect()
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  id := uuid.New()
+
+  _, dbErr := db.Query("INSERT INTO todo_groups (id, name) VALUES($1, $2)", id, name)
+  if err != nil {
+    return "", dbErr
+  }
+
+  return name, nil
 }
