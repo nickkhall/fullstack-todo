@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
@@ -73,17 +74,29 @@ func TokenAuthMiddleware() gin.HandlerFunc {
     }
 
     jwtToken := c.GetHeader("Authorization")[7:]
-    _, err := jwt.ParseWithClaims(jwtToken, &types.JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
+    jwtClaim := types.JWTClaim{}
+    _, err := jwt.ParseWithClaims(jwtToken, &jwtClaim, func(token *jwt.Token) (interface{}, error) {
       return []byte(cfg.JWTKey), nil
     })
 
     if err != nil {
-      respondWithError(c, 401, "API token invalid")
+      respondWithError(c, 401, "JWT Token invalid.")
       return
     }
 
     if jwtToken == "" {
-      respondWithError(c, 401, "API token required")
+      respondWithError(c, 401, "JWT Token required.")
+      return
+    }
+
+    expirationTime := time.Now().Add(-24 * time.Hour)
+
+    fmt.Println("checking expiration of jwt")
+    fmt.Println("jwtClaim.Expires:", jwtClaim.Expires)
+    fmt.Println("expirationTime:", expirationTime)
+    if (jwtClaim.Expires.Before(expirationTime)) {
+      fmt.Println("JWT IS EXPIRED")
+      respondWithError(c, 401, "JWT Token is expired.")
       return
     }
 
