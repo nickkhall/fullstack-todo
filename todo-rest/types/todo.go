@@ -30,3 +30,9 @@ type ColumnsTodo struct {
 type TodoResponse struct {
   Columns []map[string][]ColumnsTodo `json:"columns"`
 }
+
+type TodoGroup struct {
+  ID     string `json:"id"`
+  Name   string `json:"name"`
+  UserID string `json:"userId"`
+}

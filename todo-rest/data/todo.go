@@ -1,6 +1,7 @@
 package data
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
@@ -14,80 +15,85 @@ func GetTodos(email string) (*types.TodoResponse, error) {
   if err != nil {
     log.Fatal(err)
   }
-
+  
   defer db.Close()
-
-  var id string
+  
+  var userID string
   row := db.QueryRow("SELECT id FROM public.user WHERE email = $1;", email)
-  err = row.Scan(&id)
-
+  err = row.Scan(&userID)
+  
   if err != nil {
     return nil, err
   }
-
-  rows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, COALESCE(completed_at, 0), group_id FROM public.todos WHERE user_id = $1;", id)
+  
+  todoGroups := make([]map[string][]types.ColumnsTodo, 0) // Initialize an empty slice
+  
+  todoGroupRows, err := db.Query("SELECT * FROM public.todo_groups WHERE user_id = $1", userID)
   if err != nil {
     return nil, err
   }
-
-  defer rows.Close()
-
-  var todos []types.ColumnsTodo
-  type todoMap map[string][]types.ColumnsTodo
-  //var todoSlice []map[string][]types.ColumnsTodo
-  var tm todoMap
-  var tr types.TodoResponse
-
-  todoSlice := make([]map[string][]types.ColumnsTodo, 1)
-
-  for rows.Next() {
-    var todo types.Todo
-    err := rows.Scan(&todo.ID, &todo.Name, &todo.Description, &todo.CreatedAt, &todo.Completed, &todo.CompleteBy, &todo.CompletedAt, &todo.GroupID)
+  
+  defer todoGroupRows.Close()
+  
+  for todoGroupRows.Next() {
+    var todoGroup types.TodoGroup
+    err := todoGroupRows.Scan(&todoGroup.ID, &todoGroup.Name, &todoGroup.UserID)
     if err != nil {
       return nil, err
     }
-
-    var columnName string
-    row := db.QueryRow("SELECT name FROM public.todo_groups WHERE id = $1;", todo.GroupID)
-    err = row.Scan(&columnName)
-
+    
+    fmt.Println("todo group id: ", todoGroup.ID)
+    
+    todoRows, err := db.Query("SELECT id, name, COALESCE(description, ''), created_at, completed, complete_by, COALESCE(completed_at, 0), group_id FROM public.todos WHERE user_id = $1 AND group_id = $2;", userID, todoGroup.ID)
     if err != nil {
       return nil, err
     }
-
-    t := types.ColumnsTodo{
-      ID: todo.ID,
-      Name: todo.Name,
-      Description: todo.Description,
-      CreatedAt: todo.CreatedAt,
-      Completed: todo.Completed,
-      CompleteBy: todo.CompleteBy,
-      CompletedAt: todo.CompletedAt,
+    
+    if err == sql.ErrNoRows {
+      fmt.Println("NO ROWS FOR todos")
     }
-
-    todos = append(todos, t) 
-
-    fmt.Println("tm: ", tm)
-    fmt.Println("todos: ", todos)
-
-    if tm[columnName] == nil {
-      mapEntry := map[string][]types.ColumnsTodo{
-	[columnName]: todos,
+    
+    defer todoRows.Close()
+    
+    var todos []types.ColumnsTodo
+    
+    fmt.Println("about to iterate through todos")
+    for todoRows.Next() {
+      fmt.Println("iterating through todos")
+      
+      var todo types.Todo
+      err := todoRows.Scan(&todo.ID, &todo.Name, &todo.Description, &todo.CreatedAt, &todo.Completed, &todo.CompleteBy, &todo.CompletedAt, &todo.GroupID)
+      if err != nil {
+        return nil, err
       }
-      todoSlice = append(todoSlice, mapEntry)
+      
+      t := types.ColumnsTodo{
+        ID:          todo.ID,
+        Name:        todo.Name,
+        Description: todo.Description,
+        CreatedAt:   todo.CreatedAt,
+        Completed:   todo.Completed,
+        CompleteBy:  todo.CompleteBy,
+        CompletedAt: todo.CompletedAt,
+      }
+      
+      fmt.Println("todo: ", t)
+      // create slice of todos
+      todos = append(todos, t)
     }
-
-
-    tr = types.TodoResponse{
-      Columns: todoSlice,
-    }
+    
+    fmt.Println("todos: ", todos)
+    
+    // Create a new map for each todo group and append it to the slice
+    todoCol := make(map[string][]types.ColumnsTodo)
+    todoCol[todoGroup.Name] = todos
+    todoGroups = append(todoGroups, todoCol)
   }
-
-  err = rows.Err()
-  if err != nil {
-    return nil, err
+  
+  tr := types.TodoResponse{
+    Columns: todoGroups,
   }
-
+  
   return &tr, nil
 }
 
