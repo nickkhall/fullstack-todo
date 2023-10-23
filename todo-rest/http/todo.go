@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -14,25 +13,6 @@ import (
 	"github.com/nickkhall/fullstack-todo/todo-rest/pkg"
 	"github.com/nickkhall/fullstack-todo/todo-rest/types"
 )
-func extractClaims(tokenStr string) (jwt.MapClaims, error) {
-  c := config.GetConfig()
-
-  token, err := jwt.ParseWithClaims(tokenStr, &types.JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
-     // check token signing method etc
-     return []byte(c.JWTKey), nil
-  })
-
-  if err != nil {
-    return nil, err 
-  }
-
-  fmt.Println("token: ", token)
-
-  if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-    return claims, nil 
-  } 
-  return nil, err 
-}
 
 func GetTodos(ctx *gin.Context) {
   j := ctx.GetHeader("Authorization")
@@ -65,7 +45,7 @@ func GetTodos(ctx *gin.Context) {
   }
 
 
-  todos, err := pkg.GetTodos(u.Email)
+  todos, err := pkg.GetTodos(&u.Email)
   if err != nil {
     log.Print("GET /todos - ERROR: ", err)
     ctx.JSON(http.StatusInternalServerError, gin.H{"success": false})
