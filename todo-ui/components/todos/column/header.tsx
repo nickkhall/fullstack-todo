@@ -24,7 +24,7 @@ type ColumnHeaderProps = {
   sortOrder: string
   sortType: string
   changeSortByOrder: (order: string) => void
-  handleSortTypeChange: () => void
+  handleSortTypeChange: ({ target: { value } }: any) => void
 }
 
 const StyledHeader = styled('div')(columnHeaderStyles);

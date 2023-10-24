@@ -20,7 +20,7 @@ import { sortObjArrByOrder } from '@/utils/formatting';
 
 type ColumnProps = {
   columnName: string
-  todos: {}[]
+  todos: Array<{}>
 }
 
 const StyledColumn = styled(Paper)<PaperProps>(columnStyles);
@@ -43,7 +43,6 @@ export default function Column ({ columnName, todos }: ColumnProps) {
   useEffect(() => {
     if (todos?.length) {
       const sortedArr = sortObjArrByOrder(todos, sortType, sortOrder);
-      console.log({ sortedArr });
       setSortedTodos(sortedArr || [])
     }
   }, [todos, sortType, sortOrder])
@@ -55,7 +54,7 @@ export default function Column ({ columnName, todos }: ColumnProps) {
         sortOrder={sortOrder}
         sortType={sortType}
         changeSortByOrder={(order) => setSortOrder(order)}
-        handleSortTypeChange={({ target: { value }}) => {setSortType(value)}}
+        handleSortTypeChange={({ target: { value }}: any) => {setSortType(value)}}
       />
       <StyledDivider />
       <section>
