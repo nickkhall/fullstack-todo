@@ -7,5 +7,6 @@ export default ({ theme }: any) => ({
   justifyContent: 'flex-start',
   maxHeight: 200,
   padding: 10,
+  marginBottom: 10,
   width: '100%'
 })

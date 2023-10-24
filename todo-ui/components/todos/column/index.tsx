@@ -3,7 +3,6 @@ import { ReactNode, useState, useEffect, useCallback } from 'react';
 // MUI Components
 import Paper, { PaperProps } from '@mui/material/Paper'
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import Divider, { DividerProps } from '@mui/material/Divider';
 
 // Components
 import Todo from '../todo';
@@ -13,7 +12,6 @@ import ColumnHeader from './header';
 // Styles
 import { styled } from '@mui/material/styles';
 import columnStyles from '@/styles/Todo/column';
-import dividerStyles from '@/styles/Divider';
 
 // Utils
 import { sortObjArrByOrder } from '@/utils/formatting';
@@ -21,12 +19,18 @@ import { sortObjArrByOrder } from '@/utils/formatting';
 type ColumnProps = {
   columnName: string
   todos: Array<{}>
+  isCreatingColumn: boolean
+  isNewlyCreatedColumn: boolean
 }
 
 const StyledColumn = styled(Paper)<PaperProps>(columnStyles);
-const StyledDivider = styled(Divider)<DividerProps>(dividerStyles);
 
-export default function Column ({ columnName, todos }: ColumnProps) {
+export default function Column ({
+  columnName,
+  todos,
+  isCreatingColumn,
+  isNewlyCreatedColumn
+}: ColumnProps) {
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortType, setSortType] = useState('createdAt');
   const [sortedTodos, setSortedTodos] = useState(todos);
@@ -50,13 +54,14 @@ export default function Column ({ columnName, todos }: ColumnProps) {
   return (
     <StyledColumn>
       <ColumnHeader
+        isNewlyCreatedColumn={isNewlyCreatedColumn}
+        isCreatingColumn={isCreatingColumn}
         columnName={columnName}
         sortOrder={sortOrder}
         sortType={sortType}
         changeSortByOrder={(order) => setSortOrder(order)}
         handleSortTypeChange={({ target: { value }}: any) => {setSortType(value)}}
       />
-      <StyledDivider />
       <section>
         {sortedTodos?.length
           ? sortedTodos?.map((todo: any) => (

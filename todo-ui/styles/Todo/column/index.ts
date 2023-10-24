@@ -4,12 +4,12 @@ export default ({ theme }: any) => ({
   flexDirection: 'column',
   height: '97%',
   justifyContent: 'flex-start',
-  margin: 10,
+  margin: '10px 5px',
   minWidth: 300,
   maxWidth: 350,
   padding: 10,
-  '&:last-of-type': {
-    margin: '10px 0px'
+  '&:first-of-type': {
+    margin: '10px 0px 10px 5px'
   },
   width: '100%'
 })

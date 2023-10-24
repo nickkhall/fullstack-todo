@@ -1,6 +1,8 @@
 export default ({ theme }: any) => ({
-  borderBottom: `2.5px solid ${theme.palette.text.primary}`,
+  borderBottom: `1.5px solid ${theme.palette.text.primary}`,
   borderBottomLeftRadius: '4px',
   borderBottomRightRadius: '4px',
-  margin: '15px 0px'
+  color: 'white',
+  margin: '10px 0px',
+  width: '100%'
 });

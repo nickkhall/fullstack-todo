@@ -19,6 +19,7 @@ export default function Todos() {
   const [todoColumns, setTodoColumns] = useState<any[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [paginatedTodos, setPaginatedTodos] = useState<any[] | null>(null)
+  const [isCreatingColumn, setIsCreatingColumn] = useState<boolean>(false);
 
   const getTodoColumns = async () => {
     try {
@@ -36,20 +37,20 @@ export default function Todos() {
     const windowWidth = window.innerWidth;
 
     if (windowWidth < 1250) {
-      return 3;
+      return 2;
     } else if (windowWidth > 1250 && windowWidth < 2000) {
-      return 4;
+      return 3;
     } else if (windowWidth > 2000 && windowWidth < 2650) {
-      return 5;
+      return 4;
     }
 
     // default 3
     return 3;
   }
 
-  const handleAddColumn = (updatedColumns: any) => {
-    setTodoColumns(updatedColumns);
-    setPaginatedTodos(updatedColumns.filter((_: any, i: number) => i < getPaginatedNumberByWindowSize()))
+  const handleCreateNewColumn = () => {
+    setPaginatedTodos([...paginatedTodos, { name: '', isNew: true }]) 
+    setIsCreatingColumn(true);
   }
 
   const getTodoColumnName = (todoColumn: any) => {
@@ -73,13 +74,11 @@ export default function Todos() {
     return [];
   }
 
-  console.log({ innerWidth: window.innerWidth, paginationNumber: getPaginatedNumberByWindowSize(), paginatedTodos });
-
   useEffect(() => {
     if (isLoading) {
       getTodoColumns();
     }
-  }, [isLoading, window.innerWidth])
+  }, [isLoading])
 
   if (isLoading) {
     return <Loader text="Fetching Todos..." /> 
@@ -88,8 +87,10 @@ export default function Todos() {
   return (
     <ContentSectionRow>
       {paginatedTodos?.length
-        ? paginatedTodos.map((tc, i) => (
+        ? paginatedTodos.map((tc, i, arr) => (
             <TodoColumn
+              isNewlyCreatedColumn={(i === (arr.length - 1))}
+              isCreatingColumn={isCreatingColumn}
               key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'}
               columnName={getTodoColumnName(tc)}
               todos={getTodoColumnData(tc)}
@@ -102,8 +103,9 @@ export default function Todos() {
         sx={{
           background: 'transparent',
           height: '4rem',
-          margin: '35px 10px 0px 10px'
+          margin: '35px 10px 0px 5px'
         }}
+        onClick={handleCreateNewColumn}
       >
         <AddIcon sx={{ color: 'white', fontSize: '3rem' }} />
       </IconButton>
