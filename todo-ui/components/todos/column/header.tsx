@@ -67,10 +67,13 @@ export default function ColumnHeader({
     setNewColumnName(value);
   }
 
+  const isCreating = isCreatingColumn && isNewlyCreatedColumn;
+
+  // @TODO: CLEAN ME UP / ABSTRACT MY COMPONENTS OUT INTO SMALLER COMPONENTS
   return (
     <StyledHeader>
       <StyledHeaderTop>
-        {(isCreatingColumn && isNewlyCreatedColumn)
+        {isCreating
           ? (
             <form onSubmit={handleColumnCreate} style={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
               <TextField
@@ -90,24 +93,28 @@ export default function ColumnHeader({
           <StyledArrowUpIcon onClick={() => changeSortByOrder('asc')} />
         </aside>
       </StyledHeaderTop>
-      <StyledDivider noMargin={isCreatingColumn && isNewlyCreatedColumn} />
-      <StyledHeaderDiv>
-        <StyledSection>
-          <Typography variant='body2' aria-label='Order of Todo'>
-            Order:
-            <em style={{ display: 'block', marginTop: '13px' }}>{SortOrderLabel}</em>
-          </Typography>
-        </StyledSection>
-        <StyledSection>
-          <DropdownMenu
-            items={sortTypeItems}
-            handleChange={handleSortTypeChange}
-          />
-        </StyledSection>
-      </StyledHeaderDiv>
+      {!isCreating && (
+        <>
+          <StyledDivider noMargin={isCreatingColumn && isNewlyCreatedColumn} />
+          <StyledHeaderDiv>
+            <StyledSection>
+              <Typography variant='body2' aria-label='Order of Todo'>
+                Order:
+                <em style={{ display: 'block', marginTop: '13px' }}>{SortOrderLabel}</em>
+              </Typography>
+            </StyledSection>
+            <StyledSection>
+              <DropdownMenu
+                items={sortTypeItems}
+                handleChange={handleSortTypeChange}
+              />
+            </StyledSection>
+          </StyledHeaderDiv>
+        </>
+      )}
       <StyledDivider />
       <ContentSectionSpaced>
-        <AddButton text='Add Todo' title='Add Todo to Column' />
+        {!isCreating ? <AddButton text='Add Todo' title='Add Todo to Column' /> : <h6 style={{ color: 'transparent' }}>_</h6>}
         <DeleteButton text='Delete Column' title='Delete Todo Column' />
       </ContentSectionSpaced>
     </StyledHeader>

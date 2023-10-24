@@ -9,7 +9,7 @@ type StyledDividerProps = {
   noMargin?: boolean
 }
 
-export default function styledDivider({ noMargin }) {
+export default function styledDivider({ noMargin }: StyledDividerProps) {
   const StyledDivider = styled(Divider)<DividerProps>(({ theme }) => { return dividerStyles({theme, noMargin})});
 
   return (
