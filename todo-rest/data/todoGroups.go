@@ -33,7 +33,7 @@ func GetTodoGroups(userID *string, db *sql.DB) (*[]map[string][]types.ColumnsTod
     if err != nil {
       return nil, err
     }
-    
+
     // Create a new map for each todo group and append it to the slice
     todoCol := make(map[string][]types.ColumnsTodo)
     todoCol[todoGroup.Name] = *todos

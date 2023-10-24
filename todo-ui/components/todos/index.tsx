@@ -50,7 +50,6 @@ export default function Todos() {
   }
 
   useEffect(() => {
-    console.log({ isLoading });
     if (isLoading) {
       getTodoColumns();
     }

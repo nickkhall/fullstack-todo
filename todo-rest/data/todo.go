@@ -50,7 +50,7 @@ func GetTodos(userID *string, groupID *string, db *sql.DB) (*[]types.ColumnsTodo
     return nil, err
   }
    
-  todos := make([]types.ColumnsTodo, 1)
+  todos := make([]types.ColumnsTodo, 0)
   
   for todoRows.Next() {
     var todo types.Todo
