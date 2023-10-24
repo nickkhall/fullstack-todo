@@ -75,32 +75,34 @@ export default function ColumnHeader({
       <StyledHeaderTop>
         {isCreating
           ? (
-            <form onSubmit={handleColumnCreate} style={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
+            <form onSubmit={handleColumnCreate} style={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', width: '100%' }}>
               <TextField
                 label={<Typography variant="body2">New Column Name</Typography>}
                 value={newColumnName}
                 onChange={handleColumnNameChange}
-                sx={{ height: '50px' }}
-                InputProps={{ sx: { height: '75%', alignItems: 'center', display: 'flex' } }}
-                InputLabelProps={{ sx: { height: '25%', alignItems: 'center', display: 'flex' } }}
+                sx={{ height: '50px', width: '100%', '& .MuiInput-root': { borderColor: 'white' } }}
+                InputProps={{ sx: { height: '75%', alignItems: 'center', display: 'flex', color: 'white', marginTop: '5px' }}}
+                InputLabelProps={{ sx: { height: '22%', alignItems: 'center', display: 'flex' } }}
               />
             </form>
           )
-          : <Typography variant='h6'>{columnName}</Typography>
+          : <Typography sx={{ color: 'white', fontSize: '1.25rem' }} variant='overline'>{columnName}</Typography>
         }
-        <aside>
-          <StyledArrowDownIcon onClick={() => changeSortByOrder('desc')} />
-          <StyledArrowUpIcon onClick={() => changeSortByOrder('asc')} />
-        </aside>
+        {!isCreating && (
+          <aside>
+            <StyledArrowDownIcon onClick={() => changeSortByOrder('desc')} />
+            <StyledArrowUpIcon onClick={() => changeSortByOrder('asc')} />
+          </aside>
+        )}
       </StyledHeaderTop>
       {!isCreating && (
         <>
           <StyledDivider noMargin={isCreatingColumn && isNewlyCreatedColumn} />
           <StyledHeaderDiv>
             <StyledSection>
-              <Typography variant='body2' aria-label='Order of Todo'>
+              <Typography sx={{ color: 'white', fontSize: '0.85rem' }} variant='caption' aria-label='Order of Todo'>
                 Order:
-                <em style={{ display: 'block', marginTop: '13px' }}>{SortOrderLabel}</em>
+                <em style={{ display: 'block', marginTop: '9px' }}>{SortOrderLabel}</em>
               </Typography>
             </StyledSection>
             <StyledSection>
@@ -112,7 +114,6 @@ export default function ColumnHeader({
           </StyledHeaderDiv>
         </>
       )}
-      <StyledDivider />
       <ContentSectionSpaced>
         {!isCreating ? <AddButton text='Add Todo' title='Add Todo to Column' /> : <h6 style={{ color: 'transparent' }}>_</h6>}
         <DeleteButton text='Delete Column' title='Delete Todo Column' />

@@ -23,8 +23,9 @@ const DropdownMenu = ({ items, handleChange }: DropdownMenuProps) => {
 
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width: '100%' }}>
-      <Typography variant="body2">Sort Type:</Typography>
+      <Typography sx={{ color: 'white', fontSize: '0.85rem' }} variant="caption">Sort Type:</Typography>
       <Select
+        sx={{ '& .MuiSelect-select.MuiSelect-select': { color: 'white' } }}
         value={selectedItem}
         onChange={setNewSelectedItem}
       >

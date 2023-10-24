@@ -1,4 +1,6 @@
 export default ({ theme }: any) => ({
+  background: theme.palette.dark.linearDarkGrey,
+  border: `2px solid ${theme.palette.dark.secondary}`,
   color: theme.palette.dark.secondary,
   display: 'flex',
   flexDirection: 'column',

@@ -15,8 +15,8 @@ export default function AddButton({ text, title }: AddButtonProps) {
   return (
     <VerticallyAligned>
       <IconButton sx={{ padding: 0 }} title={title} aria-label={title}>
-        <ClearIcon sx={{ color: 'rgba(139, 0, 0, 0.7)' }} />
         <Typography variant='body2' sx={{ color: 'white', margin: '0px 5px' }}>{text}</Typography>
+        <ClearIcon sx={{ color: 'rgba(161, 0, 14, 0.85)' }} />
       </IconButton>
     </VerticallyAligned>
   );
