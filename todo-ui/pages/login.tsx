@@ -57,9 +57,12 @@ export default function Login<FunctionComponent> () {
       return;
     }
 
-    const userData = JSON.parse(decodedData.user);
-    setAuthedUser(userData);
+    if (decodedData?.data) {
+      setAuthedUser(decodedData.user);
+    }
+
     setJWTInStorage(jwt);
+    setIsLoading(false);
   }
 
   if (isLoading) {

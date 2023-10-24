@@ -8,9 +8,8 @@ import (
 
 type JWTClaim struct {
   jwt.StandardClaims
-  Issuer     string    `json:"iss"`
-  Expires    time.Time `json:"exp"`
-  Authorized bool      `json:"authorized"`
-  User       string    `json:"user"`
-  Email      string    `json:"email"`
+  Issuer          string    `json:"iss"`
+  Expires         time.Time `json:"exp"`
+  Authorized      bool      `json:"authorized"`
+  User		  User      `json:"user"`
 }

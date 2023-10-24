@@ -26,9 +26,7 @@ type FormProps = {
   inputs: Input[]
   buttonText: string
   values: {}
-  onSubmit: ({}) => void
-  isAddingColumn: boolean
-  onIsAddingColumn: () => void
+  onSubmit: (columnName: string) => void
 }
 
 const StyledForm = styled('form')(addTodoColumnHeaderFormStyles);
@@ -39,8 +37,7 @@ const StyledRedButton = styled(Button)<ButtonProps>(buttonRedStyles);
 export default function Form({
   inputs,
   buttonText,
-  onSubmit,
-  onIsAddingColumn
+  onSubmit
 }: FormProps) {
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [columnName, setColumnName] = useState('')

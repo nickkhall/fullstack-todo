@@ -10,7 +10,7 @@ import TodoColumn from './column';
 import TodosHeader from './header';
 
 export default function Todos() {
-  const [todoColumns, setTodoColumns] = useState(null);
+  const [todoColumns, setTodoColumns] = useState<any[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const getTodoColumns = async () => {
@@ -63,7 +63,12 @@ export default function Todos() {
     <ContentSectionColumn>
       <TodosHeader onAddColumn={handleAddColumn} />
       {todoColumns?.length
-        ? todoColumns.map(tc => <TodoColumn key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'} columnName={getTodoColumnName(tc)} todos={getTodoColumnData(tc)} />)
+        ? todoColumns.map(tc => (
+          <TodoColumn
+            key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'}
+            columnName={getTodoColumnName(tc)}
+            todos={getTodoColumnData(tc)}
+          />))
         : null
       }
     </ContentSectionColumn>

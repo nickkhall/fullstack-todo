@@ -20,9 +20,9 @@ type AddTodosHeaderProps = {
 const StyledHeader = styled('div')(addTodoColumnHeaderStyles);
 
 export default function AddTodosHeader({ onAddColumn }: AddTodosHeaderProps) {
-  const handleAddColumn = (values: { Name: string }) => {
-    if (values?.Name) {
-      createTodoColumn(values.Name);
+  const handleAddColumn = (columnName: string) => {
+    if (columnName) {
+      createTodoColumn(columnName);
     }
   }
 

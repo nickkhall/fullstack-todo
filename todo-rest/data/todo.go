@@ -76,7 +76,7 @@ func GetTodos(userID *string, groupID *string, db *sql.DB) (*[]types.ColumnsTodo
   return &todos, nil
 }
 
-func CreateTodoColumn(name string) (string, error) {
+func CreateTodoColumn(name *string, email *string) (*types.TodoResponse, error) {
   // connect to postgres db
   db, err := Connect()
   if err != nil {
@@ -87,8 +87,13 @@ func CreateTodoColumn(name string) (string, error) {
 
   _, dbErr := db.Query("INSERT INTO todo_groups (id, name) VALUES($1, $2)", id, name)
   if err != nil {
-    return "", dbErr
+    return nil, dbErr
   }
 
-  return name, nil
+  todos, err := GetUserTodosByColumn(*email)
+  if err != nil {
+    return nil, err
+  }
+
+  return todos, nil
 }

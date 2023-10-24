@@ -15,10 +15,10 @@ func GetTodos(email *string) (*types.TodoResponse, error) {
 	return todos, nil
 }
 
-func CreateTodoColumn(name string) (string, error) {
-	col, err := data.CreateTodoColumn(name)
+func CreateTodoColumn(name *string, email *string) (*types.TodoResponse, error) {
+	col, err := data.CreateTodoColumn(name, email)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	return col, nil
