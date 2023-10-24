@@ -48,8 +48,6 @@ export default function Column ({ columnName, todos }: ColumnProps) {
     }
   }, [todos, sortType, sortOrder])
 
-  console.log({ sortOrder, sortType });
-
   return (
     <StyledColumn>
       <ColumnHeader

@@ -5,26 +5,23 @@ import { getTodos } from '@/api/todos';
 
 // Components
 import ContentSectionColumn from '@/components/content/sectionColumn';
-import InlineLoader from '@/components/loader/inline';
+import Loader from '@/components/loader';
 import TodoColumn from './column';
 import TodosHeader from './header';
 
 export default function Todos() {
-  const [todoColumns, setTodoColumns] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [todoColumns, setTodoColumns] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getTodoColumns = async () => {
-    const { data: { columns = [] } } = await getTodos();
-    setTodoColumns(columns);
-  }
-
-  useEffect(() => {
-    getTodoColumns()
-
-  }, [JSON.stringify(todoColumns)])
-
-  if (isLoading) {
-    return <InlineLoader /> 
+    try {
+      const { data: { columns = [] } } = await getTodos();
+      setTodoColumns(columns);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   }
 
   const handleAddColumn = (name: string) => {
@@ -50,6 +47,17 @@ export default function Todos() {
     }
 
     return [];
+  }
+
+  useEffect(() => {
+    console.log({ isLoading });
+    if (isLoading) {
+      getTodoColumns();
+    }
+  }, [isLoading])
+
+  if (isLoading) {
+    return <Loader text="Fetching Todos..." /> 
   }
 
   return (
