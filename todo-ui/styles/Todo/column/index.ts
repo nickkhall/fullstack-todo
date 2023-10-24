@@ -2,13 +2,14 @@ export default ({ theme }: any) => ({
   color: theme.palette.dark.secondary,
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
+  height: '97%',
   justifyContent: 'flex-start',
-  marginRight: 10,
-  minWidth: 250,
-  maxWidth: 400,
+  margin: 10,
+  minWidth: 300,
+  maxWidth: 350,
   padding: 10,
   '&:last-of-type': {
-    margin: 0
-  }
+    margin: '10px 0px'
+  },
+  width: '100%'
 })

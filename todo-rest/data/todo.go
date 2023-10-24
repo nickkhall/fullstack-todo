@@ -88,7 +88,7 @@ func CreateTodoColumn(name *string, email *string) (*types.TodoResponse, error) 
   if err != nil {
     return nil, err
   }
-
+ 
   query := fmt.Sprintf("INSERT INTO public.todo_groups (id, name, user_id) VALUES('%s', '%s', '%s');", id, *name, userID)
   _, dbErr := db.Query(query)
   if err != nil {

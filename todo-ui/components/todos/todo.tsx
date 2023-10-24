@@ -22,27 +22,30 @@ import styles from '@/styles/Todo';
 import checkboxStyles from '@/styles/Todo/checkbox';
 
 type TodoProps = {
+  id: string
   name: string
   key: string
   completed: boolean
   handleCompleted: () => void
-  handleUpdateName: (name: string) => void
 }
 
 const StyledTodo = styled(Paper)<PaperProps>(styles);
 const StyledCheckbox = styled(Checkbox)<CheckboxProps>(checkboxStyles);
 
 export default function Todo ({
+  id,
   name,
   completed,
-  handleCompleted,
-  handleUpdateName
+  handleCompleted
 }: TodoProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [newTodoName, setNewTodoName] = useState<string>(name);
 
-  if (!isEditing && newTodoName !== name) {
-    handleUpdateName(newTodoName);
+  const handleEdit = () => {
+    if (!isEditing && newTodoName !== name) {
+      // editTodo(newTodoName, id);
+      setIsEditing(false);
+    }
   }
 
   return (
@@ -55,7 +58,7 @@ export default function Todo ({
         <IconButton onClick={() => setIsEditing(!isEditing)}>
           {!isEditing
             ? <EditIcon sx={{ color: 'white' }} />
-            : <SaveAsIcon sx={{ color: 'white' }} />
+            : <SaveAsIcon sx={{ color: 'white' }} onClick={handleEdit} />
           }
         </IconButton>
         <StyledCheckbox onChange={handleCompleted} />

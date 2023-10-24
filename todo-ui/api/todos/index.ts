@@ -19,3 +19,13 @@ export const createTodoColumn = async (columnName: string) => {
   // @TODO: Handle error notifications
   return [];
 }
+
+export const editTodo = async (updatedName: string) => {
+  const response = await makeRequest({
+    path: '/todos/:id',
+    method: 'PUT',
+    payload: { name: updatedName }
+  });
+
+  console.log({ editTodoResponse: response });
+}
