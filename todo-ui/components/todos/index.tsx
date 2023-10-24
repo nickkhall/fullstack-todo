@@ -7,19 +7,15 @@ import { getTodos } from '@/api/todos';
 import ContentSectionColumn from '@/components/content/sectionColumn';
 import InlineLoader from '@/components/loader/inline';
 import TodoColumn from './column';
-import AddTodosHeader from './addHeader';
+import TodosHeader from './header';
 
 export default function Todos() {
   const [todoColumns, setTodoColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const getTodoColumns = async () => {
-    const { data: { data: { columns } } } = await getTodos();
-    console.log({ columns });
-
-    if (columns) {
-      setTodoColumns(columns);
-    }
+    const { data: { columns = [] } } = await getTodos();
+    setTodoColumns(columns);
   }
 
   useEffect(() => {
@@ -38,7 +34,6 @@ export default function Todos() {
   const getTodoColumnName = (todoColumn: any) => {
     if (todoColumn) {
       const keys = Object.keys(todoColumn);
-      console.log({ keys })
       if (keys?.[0]) {
         return keys[0]
       }
@@ -59,7 +54,7 @@ export default function Todos() {
 
   return (
     <ContentSectionColumn>
-      <AddTodosHeader onAddColumn={handleAddColumn} />
+      <TodosHeader onAddColumn={handleAddColumn} />
       {todoColumns?.length
         ? todoColumns.map(tc => <TodoColumn key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'} columnName={getTodoColumnName(tc)} todos={getTodoColumnData(tc)} />)
         : null

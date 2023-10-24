@@ -45,7 +45,7 @@ export default function Login<FunctionComponent> () {
 
     setIsLoading(true);
 
-    const { data: { data: jwt } } = await login(email, password);
+    const { data: jwt } = await login(email, password);
     if (!jwt) {
       setIsLoading(false);
       return;

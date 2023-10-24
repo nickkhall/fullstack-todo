@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 // Components
-import AddTodoColumnForm from '@/components/todos/headerForm';
+import TodoHeaderForm from '@/components/todos/header/form';
 
 // Constants
 import { addTodoColumnInputs } from '@/constants/Todos/addTodoColumnInputs';
@@ -20,24 +20,15 @@ type AddTodosHeaderProps = {
 const StyledHeader = styled('div')(addTodoColumnHeaderStyles);
 
 export default function AddTodosHeader({ onAddColumn }: AddTodosHeaderProps) {
-  const [isAddingColumn, setIsAddingColumn] = useState(false);
-
   const handleAddColumn = (values: { Name: string }) => {
     if (values?.Name) {
       createTodoColumn(values.Name);
-      setIsAddingColumn(false);
     }
-  }
-
-  const handleIsAddingColumn = () => {
-    setIsAddingColumn(!isAddingColumn);
   }
 
   return (
     <StyledHeader>
-      <AddTodoColumnForm
-        isAddingColumn={isAddingColumn}
-        onIsAddingColumn={handleIsAddingColumn}
+      <TodoHeaderForm
         inputs={addTodoColumnInputs}
         buttonText="Add"
         onSubmit={handleAddColumn}

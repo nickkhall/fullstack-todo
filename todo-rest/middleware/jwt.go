@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"log"
 	"time"
 
@@ -91,11 +90,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 
     expirationTime := time.Now().Add(-24 * time.Hour)
 
-    fmt.Println("checking expiration of jwt")
-    fmt.Println("jwtClaim.Expires:", jwtClaim.Expires)
-    fmt.Println("expirationTime:", expirationTime)
     if (jwtClaim.Expires.Before(expirationTime)) {
-      fmt.Println("JWT IS EXPIRED")
       respondWithError(c, 401, "JWT Token is expired.")
       return
     }

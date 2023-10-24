@@ -10,7 +10,7 @@ type HTTPRequest = {
   method?: string
 }
 
-export const makeRequest = ({
+export const makeRequest = async ({
   path,
   payload = null,
   params = null,
@@ -45,9 +45,13 @@ export const makeRequest = ({
   const env = `${restUrl}:${restPort}`;
   const url = `${env}${path.split('')[0] !== '/' ? '/' : ''}${path}`;
 
-  return fetch(url, { ...options })
+  const response = await fetch(url, { ...options })
     .then(res => res.json()) 
-    .then(data => ({ data }))
-    .catch(err => Promise.reject(err))
+    .catch((err) => {
+      console.error('ERROR', err);
+      Promise.reject(err);
+    });
+
+  return response;
 }
 

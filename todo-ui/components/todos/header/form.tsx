@@ -40,37 +40,32 @@ export default function Form({
   inputs,
   buttonText,
   onSubmit,
-  isAddingColumn,
   onIsAddingColumn
 }: FormProps) {
+  const [isAddingColumn, setIsAddingColumn] = useState(false);
+  const [columnName, setColumnName] = useState('')
+
   function handleSubmit(e: any) {
     e.preventDefault();
-    onSubmit(values);
+    onSubmit(columnName);
   }
 
-  const [values, setValues] = useState(inputs.reduce((a: any, c: any) => {
-    a[c.name] = '';
-    return a;
-  }, {}))
-
   const showForm = () => {
-    onIsAddingColumn();
+    setIsAddingColumn(!isAddingColumn);
   }
 
   return (
     <StyledForm noValidate autoComplete="off" onSubmit={handleSubmit}>
       {!isAddingColumn && <Typography variant="h5" sx={{ color: 'white' }}>My Todos</Typography>}
-      {isAddingColumn && inputs?.length && (
+      {isAddingColumn && (
         <>
-          {inputs.map((i: Input, index) => (
-            <StyledTextField
-              key={i.name} 
-              value={values[i.name]}
-              onChange={({ target: { value }}) => setValues({ ...values, [i.name]: value })}
-              InputProps={{ className: inputStyles.input }}
-              {...i}
-            />
-          ))}
+          <StyledTextField
+            key="columnName" 
+            value={columnName}
+            onChange={({ target: { value }}) => setColumnName(value)}
+            label="Column Name"
+            InputProps={{ className: inputStyles.input }}
+          />
           <StyledGreenButton
             type="submit"
             onClick={onSubmit}
