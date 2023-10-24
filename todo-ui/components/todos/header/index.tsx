@@ -14,15 +14,16 @@ import addTodoColumnHeaderStyles from '@/styles/Todo/addColumnHeader';
 import { createTodoColumn } from '@/api/todos';
 
 type AddTodosHeaderProps = {
-  onAddColumn: (name: string) => void
+  handleColumnCreate: (x: any) => void
 }
 
 const StyledHeader = styled('div')(addTodoColumnHeaderStyles);
 
-export default function AddTodosHeader({ onAddColumn }: AddTodosHeaderProps) {
-  const handleAddColumn = (columnName: string) => {
+export default function AddTodosHeader({ handleColumnCreate }: AddTodosHeaderProps) {
+  const handleAddColumn = async (columnName: string) => {
     if (columnName) {
-      createTodoColumn(columnName);
+      const updatedColumns = await createTodoColumn(columnName);
+      handleColumnCreate(updatedColumns);
     }
   }
 

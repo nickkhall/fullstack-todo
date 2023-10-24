@@ -3,6 +3,6 @@ export default ({ theme }: any) => ({
   display: 'flex',
   height: '100%',
   justifyContent: 'flex-start',
-  padding: 20,
+  padding: 0,
   margin: 0
 })

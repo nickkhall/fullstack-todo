@@ -57,12 +57,11 @@ export default function Login<FunctionComponent> () {
       return;
     }
 
-    if (decodedData?.data) {
+    if (decodedData?.user) {
       setAuthedUser(decodedData.user);
     }
 
     setJWTInStorage(jwt);
-    setIsLoading(false);
   }
 
   if (isLoading) {

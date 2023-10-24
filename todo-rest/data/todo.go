@@ -84,8 +84,13 @@ func CreateTodoColumn(name *string, email *string) (*types.TodoResponse, error) 
   }
 
   id := uuid.New()
+  userID, err := GetUserID(email, db)
+  if err != nil {
+    return nil, err
+  }
 
-  _, dbErr := db.Query("INSERT INTO todo_groups (id, name) VALUES($1, $2)", id, name)
+  query := fmt.Sprintf("INSERT INTO public.todo_groups (id, name, user_id) VALUES('%s', '%s', '%s');", id, *name, userID)
+  _, dbErr := db.Query(query)
   if err != nil {
     return nil, dbErr
   }

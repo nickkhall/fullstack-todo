@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 // MUI Components
 import MenuItem from '@mui/material/MenuItem';
@@ -8,29 +8,33 @@ import Typography from '@mui/material/Typography';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import dropdownStyles from '@/styles/Menu/dropdown';
 
 type DropdownMenuProps = {
   items: { name: string, key: string }[]
   handleChange: ({ target: { value } }: { target: { value: any; }; }) => void
-  selectedItem: string
 }
 
-const StyledSelect = styled(Select)<SelectProps>(dropdownStyles);
+const DropdownMenu = ({ items, handleChange }: DropdownMenuProps) => {
+  const [selectedItem, setSelectedItem] = useState(items?.length ? items?.[0]?.key : '')
 
-export default function DropdownMenu({ items, handleChange, selectedItem }: DropdownMenuProps) {
+  const setNewSelectedItem = ({ target: { value }}: any) => {
+    setSelectedItem(value);
+  }
+
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width: '100%' }}>
       <Typography variant="body2">Sort Type:</Typography>
-      <StyledSelect
+      <Select
         value={selectedItem}
-        onChange={handleChange}
+        onChange={setNewSelectedItem}
       >
         {items?.length
           ? items.map(({ name, key }) => <MenuItem key={name} value={key}>{name}</MenuItem>)
           : <MenuItem value=""><em>None</em></MenuItem>
         }
-      </StyledSelect>
+      </Select>
     </FormControl>
   )
 }
+
+export default memo(DropdownMenu);

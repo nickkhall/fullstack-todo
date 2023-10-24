@@ -5,5 +5,6 @@ export default ({ theme }: any) => ({
   height: '100%',
   justifyContent: 'flex-start',
   padding: 20,
-  margin: 0
+  margin: 0,
+  width: '100%'
 })

@@ -5,6 +5,7 @@ import { getTodos } from '@/api/todos';
 
 // Components
 import ContentSectionColumn from '@/components/content/sectionColumn';
+import ContentSectionRow from '@/components/content/sectionRow';
 import Loader from '@/components/loader';
 import TodoColumn from './column';
 import TodosHeader from './header';
@@ -24,8 +25,8 @@ export default function Todos() {
     }
   }
 
-  const handleAddColumn = (name: string) => {
-    console.log({ name });
+  const handleAddColumn = (updatedColumns: any) => {
+    setTodoColumns(updatedColumns);
   }
 
   const getTodoColumnName = (todoColumn: any) => {
@@ -61,16 +62,18 @@ export default function Todos() {
 
   return (
     <ContentSectionColumn>
-      <TodosHeader onAddColumn={handleAddColumn} />
-      {todoColumns?.length
-        ? todoColumns.map(tc => (
-          <TodoColumn
-            key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'}
-            columnName={getTodoColumnName(tc)}
-            todos={getTodoColumnData(tc)}
-          />))
-        : null
-      }
+      <TodosHeader handleColumnCreate={handleAddColumn} />
+      <ContentSectionRow>
+        {todoColumns?.length
+          ? todoColumns.map(tc => (
+            <TodoColumn
+              key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'}
+              columnName={getTodoColumnName(tc)}
+              todos={getTodoColumnData(tc)}
+            />))
+          : null
+        }
+      </ContentSectionRow>
     </ContentSectionColumn>
   )
 }

@@ -34,7 +34,7 @@ export const makeRequest = async ({
   const options = (method === 'GET' || method === 'DELETE')
     ? { method, headers }
     : {
-      body: payload,
+      body: JSON.stringify(payload),
       method,
       headers
     };

@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import styles from '@/styles/Content/sectionColumn';
 
 type ContentSectionProps = {
-  children: JSX.Element[]
+  children: JSX.Element[] | JSX.Element
 }
 
 export default function ContentSectionColumn ({ children }: ContentSectionProps) {

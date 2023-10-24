@@ -65,7 +65,7 @@ export default function Form({
           />
           <StyledGreenButton
             type="submit"
-            onClick={onSubmit}
+            onClick={handleSubmit}
           >
             <AddIcon />
           </StyledGreenButton>

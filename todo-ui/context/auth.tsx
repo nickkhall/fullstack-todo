@@ -17,10 +17,11 @@ import { decodeJWT } from '@/utils/jwt';
 export const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }: any) {
-  const router = useRouter();
-  const [jwt, setJWT] = useState(null);
+  const [jwt, setJWT] = useState<string | null>(null);
   const [authedUser, setAuthedUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
+  const router = useRouter();
   const token = getJWTFromStorage();
   const user = decodeJWT(token);
 
@@ -41,8 +42,8 @@ export function AuthProvider({ children }: any) {
   }
 
   useEffect(() => {
-    handleLoad(user);
-  }, [token])
+    handleLoad(user?.user);
+  }, [token, JSON.stringify(user?.user)])
 
   if (router.pathname !== '/login' && authedUser === null) {
     return null

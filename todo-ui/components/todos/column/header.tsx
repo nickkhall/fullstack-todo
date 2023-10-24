@@ -67,7 +67,6 @@ export default function ColumnHeader({
           <StyledSection>
             <DropdownMenu
               items={sortTypeItems}
-              selectedItem={sortType}
               handleChange={handleSortTypeChange}
             />
           </StyledSection>

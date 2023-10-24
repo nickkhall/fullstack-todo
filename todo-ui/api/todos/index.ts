@@ -5,15 +5,15 @@ import { useAuth } from '@/context/auth';
 
 export const getTodos = async () => makeRequest({ path: '/todos' });
 
-export const createTodoColumn = (columnName: string) => {
-  const response = makeRequest({
+export const createTodoColumn = async (columnName: string) => {
+  const response = await makeRequest({
     path: '/todos/columns',
     method: 'POST',
     payload: { name: columnName }
   });
 
   if (response?.data?.columns) {
-    return response.data.column;
+    return response.data.columns;
   }
   
   // @TODO: Handle error notifications
