@@ -5,9 +5,13 @@ import Divider, { DividerProps } from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import dividerStyles from '@/styles/Divider';
 
-const StyledDivider = styled(Divider)<DividerProps>(dividerStyles);
+type StyledDividerProps = {
+  noMargin?: boolean
+}
 
-export default function styledDivider() {
+export default function styledDivider({ noMargin }) {
+  const StyledDivider = styled(Divider)<DividerProps>(({ theme }) => { return dividerStyles({theme, noMargin})});
+
   return (
     <StyledDivider />
   );

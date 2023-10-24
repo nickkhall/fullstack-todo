@@ -71,7 +71,18 @@ export default function ColumnHeader({
     <StyledHeader>
       <StyledHeaderTop>
         {(isCreatingColumn && isNewlyCreatedColumn)
-          ? <form onSubmit={handleColumnCreate}><TextField value={newColumnName} onChange={handleColumnNameChange} /></form>
+          ? (
+            <form onSubmit={handleColumnCreate} style={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
+              <TextField
+                label={<Typography variant="body2">New Column Name</Typography>}
+                value={newColumnName}
+                onChange={handleColumnNameChange}
+                sx={{ height: '50px' }}
+                InputProps={{ sx: { height: '75%', alignItems: 'center', display: 'flex' } }}
+                InputLabelProps={{ sx: { height: '25%', alignItems: 'center', display: 'flex' } }}
+              />
+            </form>
+          )
           : <Typography variant='h6'>{columnName}</Typography>
         }
         <aside>
@@ -79,7 +90,7 @@ export default function ColumnHeader({
           <StyledArrowUpIcon onClick={() => changeSortByOrder('asc')} />
         </aside>
       </StyledHeaderTop>
-      <StyledDivider />
+      <StyledDivider noMargin={isCreatingColumn && isNewlyCreatedColumn} />
       <StyledHeaderDiv>
         <StyledSection>
           <Typography variant='body2' aria-label='Order of Todo'>
