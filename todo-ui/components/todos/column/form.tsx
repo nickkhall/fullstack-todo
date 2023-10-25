@@ -15,7 +15,8 @@ export default function ColumnCreateForm({ handleColumnCreate }: ColumnCreateFor
     setNewColumnName(value);
   }
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (!newColumnName) return;
 
     handleColumnCreate(newColumnName);

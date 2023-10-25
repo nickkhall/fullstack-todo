@@ -21,6 +21,7 @@ type ColumnProps = {
   todos: Array<{}>
   isCreatingColumn: boolean
   isNewlyCreatedColumn: boolean
+  handleColumnCreate: (newColumnName: string) => void
 }
 
 const StyledColumn = styled(Paper)<PaperProps>(columnStyles);
@@ -29,7 +30,8 @@ export default function Column ({
   columnName,
   todos,
   isCreatingColumn,
-  isNewlyCreatedColumn
+  isNewlyCreatedColumn,
+  handleColumnCreate
 }: ColumnProps) {
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortType, setSortType] = useState('createdAt');
@@ -61,7 +63,7 @@ export default function Column ({
         sortType={sortType}
         changeSortByOrder={(order) => setSortOrder(order)}
         handleSortTypeChange={({ target: { value }}: any) => {setSortType(value)}}
-        handleColumnCreate={(columnName: string) => console.log({ columnName })}
+        handleColumnCreate={handleColumnCreate}
       />
       {sortedTodos?.length
         ? sortedTodos?.map((todo: any) => (
