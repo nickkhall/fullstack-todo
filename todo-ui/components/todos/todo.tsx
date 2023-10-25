@@ -14,12 +14,12 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 import EditIcon from '@mui/icons-material/Edit';
 
 // Components
-import VerticallyAligned from '@/components/content/verticallyAligned';
+import ContentVertical from '@/components/content/vertical';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Todo';
-import checkboxStyles from '@/styles/Todo/checkbox';
+import styles from '@/styles/todo';
+import checkboxStyles from '@/styles/todo/checkbox';
 
 type TodoProps = {
   id: string
@@ -54,7 +54,7 @@ export default function Todo ({
         ? <TextField value={newTodoName} onChange={({ target: { value }}: any) => {setNewTodoName(value)}} />
         : <Typography variant="body">{name}</Typography>
       }
-      <VerticallyAligned>
+      <ContentVertical>
         <IconButton onClick={() => setIsEditing(!isEditing)}>
           {!isEditing
             ? <EditIcon sx={{ color: 'white' }} />
@@ -62,7 +62,7 @@ export default function Todo ({
           }
         </IconButton>
         <StyledCheckbox onChange={handleCompleted} />
-      </VerticallyAligned>
+      </ContentVertical>
     </StyledTodo>
   )
 }

@@ -10,8 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 
 // Components
-import ContentSectionColumn from '@/components/content/sectionColumn';
-import ContentSectionRow from '@/components/content/sectionRow';
+import ContentRow from '@/components/content/row';
 import Loader from '@/components/loader';
 import TodoColumn from './column';
 
@@ -85,7 +84,7 @@ export default function Todos() {
   }
 
   return (
-    <ContentSectionRow>
+    <ContentRow>
       {paginatedTodos?.length
         ? paginatedTodos.map((tc, i, arr) => (
             <TodoColumn
@@ -109,6 +108,6 @@ export default function Todos() {
       >
         <AddIcon sx={{ color: 'white', fontSize: '3rem' }} />
       </IconButton>
-    </ContentSectionRow>
+    </ContentRow>
   )
 }

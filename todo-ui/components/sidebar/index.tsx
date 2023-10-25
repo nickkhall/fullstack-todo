@@ -6,8 +6,8 @@ import SidebarHeader from '@/components/sidebar/header';
 import SidebarMenu from '@/components/menu';
 
 // Styles
-import styles from '@/styles/Sidebar';
-import sidebarAppbarStyles from '@/styles/Sidebar/appbar';
+import styles from '@/styles/sidebar';
+import sidebarAppbarStyles from '@/styles/sidebar/appbar';
 
 // Constants
 import sidebarMenuItems from '@/constants/Sidebar/menuItems';

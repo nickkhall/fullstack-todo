@@ -4,10 +4,10 @@ import Button, { ButtonProps } from '@mui/material/Button';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import formStyles from '@/styles/Form';
-import inputStyles from '@/styles/Form/input';
-import textFieldStyles from '@/styles/Form/textField';
-import buttonGreenStyles from '@/styles/Form/buttonGreen';
+import formStyles from '@/styles/form';
+import inputStyles from '@/styles/form/input';
+import textFieldStyles from '@/styles/form/textField';
+import buttonGreenStyles from '@/styles/form/buttonGreen';
 
 type Input = {
   name: string

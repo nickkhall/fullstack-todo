@@ -1,6 +1,6 @@
 // Styling
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Sidebar/toolbar'
+import styles from '@/styles/sidebar/toolbar'
 
 // Components
 import Toolbar, { ToolbarProps } from '@mui/material/Toolbar';

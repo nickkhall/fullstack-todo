@@ -11,7 +11,7 @@ import ColumnHeader from './header';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import columnStyles from '@/styles/Todo/column';
+import columnStyles from '@/styles/todo/column';
 
 // Utils
 import { sortObjArrByOrder } from '@/utils/formatting';
@@ -61,15 +61,14 @@ export default function Column ({
         sortType={sortType}
         changeSortByOrder={(order) => setSortOrder(order)}
         handleSortTypeChange={({ target: { value }}: any) => {setSortType(value)}}
+        handleColumnCreate={(columnName: string) => console.log({ columnName })}
       />
-      <section>
-        {sortedTodos?.length
-          ? sortedTodos?.map((todo: any) => (
-            <Todo key={todo.name} handleCompleted={handleTodoCompletion} {...todo} />
-          ))
-          : null
-        }
-      </section>
+      {sortedTodos?.length
+        ? sortedTodos?.map((todo: any) => (
+          <Todo key={todo.name} handleCompleted={handleTodoCompletion} {...todo} />
+        ))
+        : null
+      }
     </StyledColumn>
   )
 }

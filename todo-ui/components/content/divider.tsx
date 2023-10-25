@@ -3,7 +3,7 @@ import Divider, { DividerProps } from '@mui/material/Divider';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import dividerStyles from '@/styles/Divider';
+import dividerStyles from '@/styles/divider';
 
 type StyledDividerProps = {
   noMargin?: boolean

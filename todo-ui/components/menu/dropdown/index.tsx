@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles';
 
 type DropdownMenuProps = {
   items: { name: string, key: string }[]
-  handleChange: ({ target: { value } }: { target: { value: any; }; }) => void
+  handleChange: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const DropdownMenu = ({ items, handleChange }: DropdownMenuProps) => {

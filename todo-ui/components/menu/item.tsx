@@ -5,7 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Menu/items';
+import styles from '@/styles/menu/items';
 
 type SidebarMenuItemProps = {
   name: string

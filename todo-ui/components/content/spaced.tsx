@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Content/spaced';
+import styles from '@/styles/content/spaced';
 
 type ContentSectionSpacedProps = {
   children: ReactNode
