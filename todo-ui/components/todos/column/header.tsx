@@ -1,30 +1,22 @@
 import { useState } from 'react';
 
 // MUI Components
-import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
-import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import TextField from '@mui/material/TextField';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 
 // Components
-import DropdownMenu from '@/components/menu/dropdown';
 import ContentSectionSpaced from '@/components/content/spaced';
+import ContentSectionColumn from '@/components/content/column';
 import AddButton from '@/components/buttons/add';
 import DeleteButton from '@/components/buttons/delete';
 import StyledDivider from '@/components/content/divider';
+import ColumnTodoSorting from './sorting';
+import SortingButtons from './sorting/buttons';
+import HeaderForm from './form';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import columnHeaderStyles from '@/styles/Todo/column/header';
-import columnHeaderSectionStyles from '@/styles/Todo/column/headerSection';
-import columnHeaderTopStyles from '@/styles/Todo/column/headerTop';
-import columnHeaderDivStyles from '@/styles/Todo/column/headerDiv';
-import sortArrowIconStyles from '@/styles/Todo/column/headerIcon';
-import sortTypeRedStyles from '@/styles/Todo/sortTypeRed';
-import sortTypeGreenStyles from '@/styles/Todo/sortTypeGreen';
-
-// Constants
-import { sortTypeItems } from '@/constants/Menu/sortTypeItems';
+import headerStyles from '@/styles/todo/column/header';
 
 type ColumnHeaderProps = {
   columnName: string
@@ -37,12 +29,7 @@ type ColumnHeaderProps = {
   handleColumnCreate: (columnName: string) => void
 }
 
-const StyledHeader = styled('div')(columnHeaderStyles);
-const StyledHeaderTop = styled('div')(columnHeaderTopStyles);
-const StyledHeaderDiv = styled('div')(columnHeaderDivStyles);
-const StyledSortTypeRed = styled(Typography)<TypographyProps>(sortTypeRedStyles);
-const StyledSortTypeGreen = styled(Typography)<TypographyProps>(sortTypeGreenStyles);
-const StyledSection = styled('section')(columnHeaderSectionStyles);
+const StyledHeader = styled('div')(headerStyles);
 
 export default function ColumnHeader({
   columnName,
@@ -54,60 +41,30 @@ export default function ColumnHeader({
   isNewlyCreatedColumn,
   handleColumnCreate
 }: ColumnHeaderProps) {
-  const [newColumnName, setNewColumnName] = useState<string>('');
-
-  const StyledArrowUpIcon = styled(VerticalAlignTopIcon)(({ theme }) => sortArrowIconStyles({theme, isSorting: sortOrder === 'asc'}));
-  const StyledArrowDownIcon = styled(VerticalAlignBottomIcon)(({ theme }) => sortArrowIconStyles({theme, isSorting: sortOrder === 'desc'}));
-
-  const SortOrderLabel = sortOrder === 'asc'
-    ? <StyledSortTypeGreen variant='body2'>Ascending</StyledSortTypeGreen>
-    : <StyledSortTypeRed variant='body2'>Descending</StyledSortTypeRed>
-
-  const handleColumnNameChange = ({ target: { value }}: any) => {
-    setNewColumnName(value);
-  }
+  const isCreating = isCreatingColumn && isNewlyCreatedColumn;
 
   return (
     <StyledHeader>
-      <StyledHeaderTop>
-        {(isCreatingColumn && isNewlyCreatedColumn)
-          ? (
-            <form onSubmit={handleColumnCreate} style={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
-              <TextField
-                label={<Typography variant="body2">New Column Name</Typography>}
-                value={newColumnName}
-                onChange={handleColumnNameChange}
-                sx={{ height: '50px' }}
-                InputProps={{ sx: { height: '75%', alignItems: 'center', display: 'flex' } }}
-                InputLabelProps={{ sx: { height: '25%', alignItems: 'center', display: 'flex' } }}
-              />
-            </form>
-          )
-          : <Typography variant='h6'>{columnName}</Typography>
-        }
-        <aside>
-          <StyledArrowDownIcon onClick={() => changeSortByOrder('desc')} />
-          <StyledArrowUpIcon onClick={() => changeSortByOrder('asc')} />
-        </aside>
-      </StyledHeaderTop>
-      <StyledDivider noMargin={isCreatingColumn && isNewlyCreatedColumn} />
-      <StyledHeaderDiv>
-        <StyledSection>
-          <Typography variant='body2' aria-label='Order of Todo'>
-            Order:
-            <em style={{ display: 'block', marginTop: '13px' }}>{SortOrderLabel}</em>
-          </Typography>
-        </StyledSection>
-        <StyledSection>
-          <DropdownMenu
-            items={sortTypeItems}
-            handleChange={handleSortTypeChange}
-          />
-        </StyledSection>
-      </StyledHeaderDiv>
-      <StyledDivider />
       <ContentSectionSpaced>
-        <AddButton text='Add Todo' title='Add Todo to Column' />
+        {isCreating
+          ? <HeaderForm handleColumnCreate={handleColumnCreate} />
+          : <Typography sx={{ color: 'white', fontSize: '1.25rem' }} variant='overline'>{columnName}</Typography>
+        }
+        {!isCreating && <SortingButtons sortOrder={sortOrder} changeSortByOrder={changeSortByOrder} />}
+      </ContentSectionSpaced>
+      {!isCreating && (
+        <ColumnTodoSorting
+          isCreatingColumn={isCreatingColumn}
+          handleSortTypeChange={handleSortTypeChange}
+          isNewlyCreatedColumn={isNewlyCreatedColumn}
+          sortOrder={sortOrder}
+        />
+      )}
+      <ContentSectionSpaced>
+        {!isCreating
+          ? <AddButton text='Add Todo' title='Add Todo to Column' />
+          : <h6 style={{ color: 'transparent' }}>_</h6>
+        }
         <DeleteButton text='Delete Column' title='Delete Todo Column' />
       </ContentSectionSpaced>
     </StyledHeader>

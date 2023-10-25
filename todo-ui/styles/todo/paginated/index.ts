@@ -1,6 +1,8 @@
 export default ({ theme }: any) => ({
   alignItems: 'center',
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
+  height: '100%',
+  maxHeight: 75,
   width: '100%'
-})
+});

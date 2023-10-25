@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // API
-import { getTodos } from '@/api/todos';
+import { getTodos, createTodoColumn } from '@/api/todos';
 
 // MUI Components
 import IconButton from '@mui/material/IconButton';
@@ -10,9 +10,10 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 
 // Components
-import ContentSectionColumn from '@/components/content/sectionColumn';
-import ContentSectionRow from '@/components/content/sectionRow';
+import ContentColumn from '@/components/content/column';
+import ContentRow from '@/components/content/row';
 import Loader from '@/components/loader';
+import PaginatedContainer from '@/components/todos/paginated';
 import TodoColumn from './column';
 
 export default function Todos() {
@@ -20,8 +21,11 @@ export default function Todos() {
   const [isLoading, setIsLoading] = useState(true);
   const [paginatedTodos, setPaginatedTodos] = useState<any[] | null>(null)
   const [isCreatingColumn, setIsCreatingColumn] = useState<boolean>(false);
+  const [currentPageNum, setCurrentPageNum] = useState<number>(1);
 
   const getTodoColumns = async () => {
+    setIsLoading(true);
+
     try {
       const { data: { columns = [] } } = await getTodos();
       setTodoColumns(columns);
@@ -39,9 +43,9 @@ export default function Todos() {
     if (windowWidth < 1250) {
       return 2;
     } else if (windowWidth > 1250 && windowWidth < 2000) {
-      return 3;
-    } else if (windowWidth > 2000 && windowWidth < 2650) {
       return 4;
+    } else if (windowWidth > 2000 && windowWidth < 2650) {
+      return 5;
     }
 
     // default 3
@@ -51,6 +55,14 @@ export default function Todos() {
   const handleCreateNewColumn = () => {
     setPaginatedTodos([...paginatedTodos, { name: '', isNew: true }]) 
     setIsCreatingColumn(true);
+  }
+
+  const onCreateNewColumn = async (newColumnName: string) => {
+    const newColumn = await createTodoColumn(newColumnName);
+    if (newColumn) {
+      getTodoColumns();
+    }
+    console.log({ newColumn });
   }
 
   const getTodoColumnName = (todoColumn: any) => {
@@ -83,32 +95,44 @@ export default function Todos() {
   if (isLoading) {
     return <Loader text="Fetching Todos..." /> 
   }
-
+  
   return (
-    <ContentSectionRow>
-      {paginatedTodos?.length
-        ? paginatedTodos.map((tc, i, arr) => (
-            <TodoColumn
-              isNewlyCreatedColumn={(i === (arr.length - 1))}
-              isCreatingColumn={isCreatingColumn}
-              key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'}
-              columnName={getTodoColumnName(tc)}
-              todos={getTodoColumnData(tc)}
-            />
+    <ContentColumn>
+      <ContentRow>
+        {paginatedTodos?.length
+          ? paginatedTodos.map((tc, i, arr) => (
+              <TodoColumn
+                isNewlyCreatedColumn={(i === (arr.length - 1))}
+                isCreatingColumn={isCreatingColumn}
+                key={Object.keys(tc)?.[0] ? Object.keys(tc)[0] : 'N/A'}
+                columnName={getTodoColumnName(tc)}
+                todos={getTodoColumnData(tc)}
+                handleColumnCreate={onCreateNewColumn}
+              />
+            )
           )
-        )
-        : null
-      }
-      <IconButton
-        sx={{
-          background: 'transparent',
-          height: '4rem',
-          margin: '35px 10px 0px 5px'
-        }}
-        onClick={handleCreateNewColumn}
-      >
-        <AddIcon sx={{ color: 'white', fontSize: '3rem' }} />
-      </IconButton>
-    </ContentSectionRow>
+          : null
+        }
+        {!isCreatingColumn && (
+          <IconButton
+            sx={{
+              background: 'transparent',
+              height: '4rem',
+              margin: '35px 10px 0px 5px'
+            }}
+            onClick={handleCreateNewColumn}
+          >
+            <AddIcon sx={{ color: 'white', fontSize: '3rem' }} />
+          </IconButton>
+      )}
+      </ContentRow>
+      {(todoColumns?.length > getPaginatedNumberByWindowSize()) && (
+        <PaginatedContainer
+          todoColumns={todoColumns}
+          paginatedNumber={getPaginatedNumberByWindowSize()}
+          currentPageNum={currentPageNum}
+        />
+      )}
+    </ContentColumn>
   )
 }

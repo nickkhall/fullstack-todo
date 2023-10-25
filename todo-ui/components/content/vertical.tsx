@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Content/verticallyAligned';
+import styles from '@/styles/content/vertical';
 
 type ContentSectionProps = {
   children: ReactNode

@@ -11,7 +11,7 @@ import ColumnHeader from './header';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import columnStyles from '@/styles/Todo/column';
+import columnStyles from '@/styles/todo/column';
 
 // Utils
 import { sortObjArrByOrder } from '@/utils/formatting';
@@ -21,6 +21,7 @@ type ColumnProps = {
   todos: Array<{}>
   isCreatingColumn: boolean
   isNewlyCreatedColumn: boolean
+  handleColumnCreate: (newColumnName: string) => void
 }
 
 const StyledColumn = styled(Paper)<PaperProps>(columnStyles);
@@ -29,7 +30,8 @@ export default function Column ({
   columnName,
   todos,
   isCreatingColumn,
-  isNewlyCreatedColumn
+  isNewlyCreatedColumn,
+  handleColumnCreate
 }: ColumnProps) {
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortType, setSortType] = useState('createdAt');
@@ -61,15 +63,14 @@ export default function Column ({
         sortType={sortType}
         changeSortByOrder={(order) => setSortOrder(order)}
         handleSortTypeChange={({ target: { value }}: any) => {setSortType(value)}}
+        handleColumnCreate={handleColumnCreate}
       />
-      <section>
-        {sortedTodos?.length
-          ? sortedTodos?.map((todo: any) => (
-            <Todo key={todo.name} handleCompleted={handleTodoCompletion} {...todo} />
-          ))
-          : null
-        }
-      </section>
+      {sortedTodos?.length
+        ? sortedTodos?.map((todo: any) => (
+          <Todo key={todo.name} handleCompleted={handleTodoCompletion} {...todo} />
+        ))
+        : null
+      }
     </StyledColumn>
   )
 }

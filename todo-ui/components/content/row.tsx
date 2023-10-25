@@ -3,7 +3,7 @@ import Paper, { PaperProps } from '@mui/material/Paper'
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Content/sectionRow';
+import styles from '@/styles/content/row';
 
 type ContentSectionProps = {
   children: JSX.Element[] | JSX.Element | null

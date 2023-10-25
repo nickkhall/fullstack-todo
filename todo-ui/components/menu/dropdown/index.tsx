@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles';
 
 type DropdownMenuProps = {
   items: { name: string, key: string }[]
-  handleChange: ({ target: { value } }: { target: { value: any; }; }) => void
+  handleChange: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const DropdownMenu = ({ items, handleChange }: DropdownMenuProps) => {
@@ -23,8 +23,9 @@ const DropdownMenu = ({ items, handleChange }: DropdownMenuProps) => {
 
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width: '100%' }}>
-      <Typography variant="body2">Sort Type:</Typography>
+      <Typography sx={{ color: 'white', fontSize: '0.85rem' }} variant="caption">Sort Type:</Typography>
       <Select
+        sx={{ '& .MuiSelect-select.MuiSelect-select': { color: 'white' } }}
         value={selectedItem}
         onChange={setNewSelectedItem}
       >

@@ -6,7 +6,7 @@ import MenuList, { MenuListProps } from '@mui/material/MenuList';
 import SidebarMenuItem from '@/components/menu/item';
 
 // Styles
-import styles from '@/styles/Menu';
+import styles from '@/styles/menu';
 
 type SidebarMenuProps = {
   items: object[]

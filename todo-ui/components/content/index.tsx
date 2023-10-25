@@ -2,7 +2,7 @@ import type { FunctionComponent, ReactNode } from 'react';
 
 // Styles
 import { styled } from '@mui/material/styles';
-import styles from '@/styles/Content/main';
+import styles from '@/styles/content';
 
 type MainContentProps = {
 }

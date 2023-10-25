@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import ContentSectionCentered from '@/components/content/centered';
 
 // Styles
-import loaderStyles from '@/styles/Loader';
+import loaderStyles from '@/styles/loader';
 
 type LoaderProps = {
   text?: string

@@ -1,6 +1,7 @@
 export default ({ theme }: any) => ({
   alignItems: 'center',
-  background: theme.palette.dark.linear,
+  background: theme.palette.dark.primary,
+  border: `2px solid ${theme.palette.dark.secondary}`,
   borderRadius: 4,
   display: 'flex',
   flexDirection: 'column',
